@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS readers (
     name TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS writers (
+CREATE TABLE IF NOT EXISTS authors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     blogTitle TEXT NOT NULL,
@@ -25,27 +25,27 @@ CREATE TABLE IF NOT EXISTS articles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
-    writerID INT,
+    authorID INT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (writerID) REFERENCES writers(id)
+    FOREIGN KEY (authorID) REFERENCES authors(id)
 );
 
 INSERT INTO readers ('name') VALUES ('Simon Star');
 INSERT INTO readers ('name') VALUES ('Dianne Dean');
 
-INSERT INTO writers ('name', 'blogTitle', 'blogSubtitle') VALUES ('Starry Traveler', 'Traveling the world', 'One country at a time');
-INSERT INTO writers ('name','blogTitle', 'blogSubtitle') VALUES ('Quantum Quill', 'Writing about the universe', 'One article at a time');
+INSERT INTO authors ('name', 'blogTitle', 'blogSubtitle') VALUES ('Starry Traveler', 'Traveling the world', 'One country at a time');
+INSERT INTO authors ('name','blogTitle', 'blogSubtitle') VALUES ('Quantum Quill', 'Writing about the universe', 'One article at a time');
 
 -- INSERT INTO email_accounts ('email_address', 'writer_id') VALUES ('simon@gmail.com', 1); 
 -- INSERT INTO email_accounts ('email_address', 'writer_id') VALUES ('simon@hotmail.com', 1); 
 -- INSERT INTO email_accounts ('email_address', 'writer_id') VALUES ('dianne@yahoo.co.uk', 2); 
 
-INSERT INTO articles ('title', 'content', 'writerID') VALUES ('My first article', 'This is the content of my first article', 1); 
-INSERT INTO articles ('title', 'content', 'writerID') VALUES ('My second article', 'I am writing an article for the second time', 1); 
-INSERT INTO articles ('title', 'content', 'writerID') VALUES ('My third article', 'Okay this is the third time', 1); 
-INSERT INTO articles ('title', 'content', 'writerID') VALUES ('I am a new writer', 'New writer first time', 2); 
-INSERT INTO articles ('title', 'content', 'writerID') VALUES ('This is defo different', 'Yeaa new second time', 2); 
+INSERT INTO articles ('title', 'content', 'authorID') VALUES ('My first article', 'This is the content of my first article', 1); 
+INSERT INTO articles ('title', 'content', 'authorID') VALUES ('My second article', 'I am writing an article for the second time', 1); 
+INSERT INTO articles ('title', 'content', 'authorID') VALUES ('My third article', 'Okay this is the third time', 1); 
+INSERT INTO articles ('title', 'content', 'authorID') VALUES ('I am a new writer', 'New writer first time', 2); 
+INSERT INTO articles ('title', 'content', 'authorID') VALUES ('This is defo different', 'Yeaa new second time', 2); 
 
 COMMIT;
 
