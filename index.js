@@ -27,6 +27,9 @@ app.use("/users", usersRoutes);
 const readerRoutes = require("./routes/reader-home");
 app.use("/reader-home", readerRoutes);
 
+const articleRoutes = require("./routes/article");
+app.use("/article", articleRoutes);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

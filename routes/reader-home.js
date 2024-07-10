@@ -3,10 +3,10 @@ const router = express.Router();
 
 router.get("/", (req, res, next) => {
   queryNewArticles =
-    "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, authors.name AS authorName FROM articles JOIN authors ON articles.authorID = authors.id ORDER BY articles.createdAt DESC LIMIT 3";
+    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, authors.name AS authorName FROM articles JOIN authors ON articles.authorID = authors.id ORDER BY articles.createdAt DESC LIMIT 3";
 
   queryFeaturedArticles =
-    "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, authors.name AS authorName FROM articles JOIN authors ON articles.authorID = authors.id";
+    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, authors.name AS authorName FROM articles JOIN authors ON articles.authorID = authors.id";
 
   queryBlogs = "SELECT name, blogTitle, blogSubtitle FROM authors";
 
