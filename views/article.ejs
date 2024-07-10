@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= article.title %></title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .article-box {
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('partials/nav-bar') %>
+    <div class="container">
+      <div class="text-center">
+        <h1><%= article.title %></h1>
+        <hr />
+      </div>
+      <p class="text-center">
+        By <%= article.authorName %> on <%= article.createdAt %>
+      </p>
+      <div class="article-box">
+        <p><%= article.content %></p>
+      </div>
+    </div>
+  </body>
+</html>
