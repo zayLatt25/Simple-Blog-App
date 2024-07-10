@@ -9,9 +9,7 @@
     "clean-db": "rm database.db #remove the old database",
     "build-db-win": "sqlite3 database.db < db_schema.sql",
     "clean-db-win": "del database.db",
-    "start": "node index.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "start": "node index.js"
   },
   "author": "Simon Katan",
   "license": "ISC",
@@ -25,14 +23,6 @@
     "node": ">=16.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.5.0",
-    "eslint": "^9.5.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-promise": "^6.2.0",
     "globals": "^15.6.0",
     "prettier": "^3.3.2"
   }
