@@ -18,6 +18,14 @@ CREATE TABLE IF NOT EXISTS email_accounts (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE IF NOT EXISTS articles (
+    article_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_title TEXT NOT NULL,
+    article_content TEXT NOT NULL,
+    user_id INT, 
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 -- Insert default data (if necessary here)
 
 -- Set up three users
@@ -29,6 +37,9 @@ INSERT INTO users ('user_name') VALUES ('Harry Hilbert');
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1); 
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
+
+INSERT INTO articles ('article_title', 'article_content', 'user_id') VALUES ('My first article', 'This is the content of my first article', 1); 
+INSERT INTO articles ('article_title', 'article_content', 'user_id') VALUES ('My second article', 'This is the content of my second article', 1); 
 
 COMMIT;
 
