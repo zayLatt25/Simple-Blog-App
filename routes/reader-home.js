@@ -3,10 +3,10 @@ const router = express.Router();
 
 router.get("/", (req, res, next) => {
   queryNewArticles =
-    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id ORDER BY articles.createdAt DESC LIMIT 3";
+    "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id ORDER BY articles.createdAt DESC LIMIT 3";
 
   queryFeaturedArticles =
-    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id";
+    "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id";
 
   queryBlogs = "SELECT name, blogTitle, blogSubtitle FROM writers";
 
@@ -37,13 +37,13 @@ router.get("/", (req, res, next) => {
 
 router.get("/check-article", (req, res, next) => {
   queryNewArticles =
-    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id ORDER BY articles.createdAt DESC LIMIT 3";
+    "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id ORDER BY articles.createdAt DESC LIMIT 3";
 
   queryFeaturedArticles =
-    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id";
+    "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id";
 
-  queryBlogs = "SELECT name, blogTitle, blogSubtitle FROM writers";
-
+  queryBlogs =
+    "SELECT name, blogTitle, blogSubtitle FROM writers JOIN articles ON writers.id = articles.writerID";
   db.all(queryNewArticles, function (err, newArticles) {
     if (err) {
       next(err);
