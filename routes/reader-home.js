@@ -35,15 +35,15 @@ router.get("/", (req, res, next) => {
   });
 });
 
-router.get("/check-article", (req, res, next) => {
+router.get("/check", (req, res, next) => {
   queryNewArticles =
     "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id ORDER BY articles.createdAt DESC LIMIT 3";
 
   queryFeaturedArticles =
     "SELECT articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id";
 
-  queryBlogs =
-    "SELECT name, blogTitle, blogSubtitle FROM writers JOIN articles ON writers.id = articles.writerID";
+  queryBlogs = "SELECT name, blogTitle, blogSubtitle FROM writers";
+
   db.all(queryNewArticles, function (err, newArticles) {
     if (err) {
       next(err);
