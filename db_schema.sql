@@ -1,5 +1,3 @@
-
--- This makes sure that foreign_key constraints are observed and that errors will be thrown for violations
 PRAGMA foreign_keys=ON;
 
 BEGIN TRANSACTION;
@@ -33,15 +31,6 @@ CREATE TABLE IF NOT EXISTS articles (
     FOREIGN KEY (writerID) REFERENCES writers(id)
 );
 
--- Create a trigger to update the updatedAt column on update
--- CREATE TRIGGER update_articles_updatedAt
--- AFTER UPDATE ON articles
--- FOR EACH ROW
--- BEGIN
---     UPDATE articles SET updatedAt = CURRENT_TIMESTAMP WHERE id = OLD.id;
--- END;
-
--- Set up three users
 INSERT INTO readers ('name') VALUES ('Simon Star');
 INSERT INTO readers ('name') VALUES ('Dianne Dean');
 
