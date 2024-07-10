@@ -16,16 +16,16 @@
       <section class="my-4">
         <h2>Newly Released</h2>
         <div class="row">
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Article Title</h5>
-                <p class="card-text">Brief description...</p>
+          <% articles.slice(0, 3).forEach(function(article) { %> 
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><%= article.title %></h5>
+                  <p class="card-text"><%= article.content %></p>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Add more articles here -->
-        </div>
+          <% }); %>
       </section>
       <section class="my-4">
         <h2>Featured Articles</h2>
@@ -38,7 +38,6 @@
               </div>
             </div>
           </div>
-          <!-- Add more featured articles here -->
         </div>
       </section>
       <section class="my-4">
@@ -56,8 +55,5 @@
         </div>
       </section>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
