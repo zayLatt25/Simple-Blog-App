@@ -8,6 +8,8 @@ router.get("/", (req, res, next) => {
   queryFeaturedArticles =
     "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id";
 
+  queryBlogs = "SELECT name, blogTitle, blogSubtitle FROM writers";
+
   db.all(queryNewArticles, function (err, newArticles) {
     if (err) {
       next(err);
@@ -16,7 +18,17 @@ router.get("/", (req, res, next) => {
         if (err) {
           next(err);
         } else {
-          res.render("reader-home.ejs", { newArticles, featuredArticles });
+          db.all(queryBlogs, function (err, blogs) {
+            if (err) {
+              next(err);
+            } else {
+              res.render("reader-home.ejs", {
+                newArticles,
+                featuredArticles,
+                blogs,
+              });
+            }
+          });
         }
       });
     }
@@ -24,17 +36,35 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/check-article", (req, res, next) => {
-  queryArticles =
+  queryNewArticles =
     "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id ORDER BY articles.createdAt DESC LIMIT 3";
 
   queryFeaturedArticles =
     "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, writers.name AS writerName FROM articles JOIN writers ON articles.writerID = writers.id";
 
-  db.all(queryArticles, function (err, rows) {
+  queryBlogs = "SELECT name, blogTitle, blogSubtitle FROM writers";
+
+  db.all(queryNewArticles, function (err, newArticles) {
     if (err) {
       next(err);
     } else {
-      res.json({ articles: rows });
+      db.all(queryFeaturedArticles, function (err, featuredArticles) {
+        if (err) {
+          next(err);
+        } else {
+          db.all(queryBlogs, function (err, blogs) {
+            if (err) {
+              next(err);
+            } else {
+              res.json({
+                newArticles,
+                featuredArticles,
+                blogs,
+              });
+            }
+          });
+        }
+      });
     }
   });
 });
