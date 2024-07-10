@@ -13,34 +13,54 @@
   <body>
     <%- include('partials/nav-bar') %>
     <div class="container">
-      <section class="my-4">
+      <div class="my-4">
         <h2>Newly Released</h2>
         <div class="row">
-          <% articles.slice(0, 3).forEach(function(article) { %> 
-            <div class="col-md-4">
+            <% newArticles.forEach(function(article) { %> 
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= article.title %></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                By <%= article.writerName %> on <%= article.createdAt %>
+                            </h6>
+                            <p class="card-text"><%= article.content %></p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+      </div>
+      <div class="my-4">
+        <h2>Featured Articles</h2>
+        <div class="row">
+          <% featuredArticles.forEach(function(article) { %> 
+            <div class="col-md-12 mb-3">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"><%= article.title %></h5>
-                  <p class="card-text"><%= article.content %></p>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <h4 class="card-title">
+                        <%= article.title %>
+                      </h4>
+                      <h6 class="card-subtitle mb-1 text-muted">
+                        By <%= article.writerName %>
+                      </h6>
+                      <h6 class="card-subtitle mb-1 text-muted">
+                        <%= article.createdAt %>
+                      </h6>
+                    </div>
+                    <div class="col-md-8">
+                      <p class="card-text"><%= article.content %></p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           <% }); %>
-      </section>
-      <section class="my-4">
-        <h2>Featured Articles</h2>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Article Title</h5>
-                <p class="card-text">Detailed description...</p>
-              </div>
-            </div>
-          </div>
         </div>
-      </section>
-      <section class="my-4">
+      </div>
+      <div class="my-4">
         <h2>Visit Other Blogs</h2>
         <div class="row">
           <div class="col-md-4">
@@ -53,7 +73,7 @@
           </div>
           <!-- Add more blog links here -->
         </div>
-      </section>
+      </div>
     </div>
   </body>
 </html>
