@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login & Signup</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+
+        <%if (form=="login"){%>
+          <div class="col-md-6">
+            <h3>Login</h3>
+            <form action="/login" method="POST">
+              <div class="form-group">
+                <label for="loginEmail">Email:</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="loginEmail"
+                  name="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="loginPassword"
+                  name="password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+          </div>
+        <%} else{%>
+          <div class="col-md-6">
+            <h3>Sign Up</h3>
+            <form action="/signup" method="POST">
+              <div class="form-group">
+                <label for="signupUsername">Username:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupUsername"
+                  name="username"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="signupDisplayName">Display Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupDisplayName"
+                  name="displayname"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="signupEmail">Email:</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="signupEmail"
+                  name="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="signupPassword">Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="signupPassword"
+                  name="password"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="signupBlogTitle">Blog Title:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupBlogTitle"
+                  name="blogtitle"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="signupBlogSubtitle">Blog Subtitle:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupBlogSubtitle"
+                  name="blogsubtitle"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Signup</button>
+            </form>
+          </div>
+        <%}%>
+      </div>
+    </div>
+  </body>
+</html>
