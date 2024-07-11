@@ -5,11 +5,10 @@ router.get("/", (req, res) => {
   res.render("login-signup.ejs", {
     form: "login",
     status: 200,
-    session: req.session.authenticated,
   });
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", (req, res) => {
   const { email, password } = req.body;
 
   db.get(

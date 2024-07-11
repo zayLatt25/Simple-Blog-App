@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/home", (req, res) => {
-  res.render("author-home.ejs", { session: req.session.authenticated });
+  res.render("author-home.ejs", { session: req.session });
 });
 
 module.exports = router;
