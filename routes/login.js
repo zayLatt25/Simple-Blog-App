@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.render("login-signup.ejs", { form: "login", status: 200 });
+  res.render("login-signup.ejs", {
+    form: "login",
+    status: 200,
+    session: req.session.authenticated,
+  });
 });
 
 router.post("/", (req, res, next) => {
@@ -18,6 +22,7 @@ router.post("/", (req, res, next) => {
         res.render("login-signup.ejs", {
           form: "login",
           status: 500,
+          session: req.session.authenticated,
         });
       }
       if (row && row.password === password) {
@@ -30,6 +35,7 @@ router.post("/", (req, res, next) => {
         res.render("login-signup.ejs", {
           form: "login",
           status: 401,
+          session: req.session.authenticated,
         });
       }
     }

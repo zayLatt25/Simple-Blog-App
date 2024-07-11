@@ -26,6 +26,7 @@ router.get("/home", (req, res, next) => {
                 newArticles,
                 featuredArticles,
                 blogs,
+                session: req.session.authenticated,
               });
             }
           });

@@ -1,6 +1,5 @@
 const express = require("express");
 const session = require("express-session");
-const store = new session.MemoryStore();
 const app = express();
 const port = 3000;
 var bodyParser = require("body-parser");
@@ -19,9 +18,10 @@ global.db = new sqlite3.Database("./database.db", function (err) {
   }
 });
 
-app.get("/", (req, res) => {
-  res.render("main-page");
-});
+// app.get("/", (req, res) => {
+//   console.log(req.session);
+//   res.render("main-page", { session: req.session });
+// });
 
 app.use(
   session({
@@ -30,9 +30,21 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false },
-    store,
   })
 );
+
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Logout failed!");
+    }
+    res.clearCookie("connect.sid");
+    res.status(200).send("Logged out successfully");
+  });
+});
+
+const mainPageRoutes = require("./routes/main-page");
+app.use("/", mainPageRoutes);
 
 const loginRoutes = require("./routes/login");
 app.use("/login", loginRoutes);
@@ -40,23 +52,27 @@ app.use("/login", loginRoutes);
 const signUpRoutes = require("./routes/signup");
 app.use("/signup", signUpRoutes);
 
+const readerRoutes = require("./routes/reader");
+app.use("/reader", readerRoutes);
+
+const articleRoutes = require("./routes/article");
+app.use("/article", articleRoutes);
+
 // Middleware function to check login
 app.use((req, res, next) => {
   if (req.session.authenticated) {
-    return next();
+    next();
   } else {
+    req.session.redirectTo = req.originalUrl;
     res.redirect("/login");
   }
 });
 
+const authorRoutes = require("./routes/author");
+app.use("/author", authorRoutes);
+
 const usersRoutes = require("./routes/users");
 app.use("/users", usersRoutes);
-
-const readerRoutes = require("./routes/reader-home");
-app.use("/reader-home", readerRoutes);
-
-const articleRoutes = require("./routes/article");
-app.use("/article", articleRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
