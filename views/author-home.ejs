@@ -9,11 +9,11 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <title>Main Page</title>
+    <title><%= data.blogTitle %></title>
   </head>
   <body>
     <%- include('partials/nav-bar') %>
-    <h1>Author Page</h1>
-    <p class="fw-bold">Welcome to the main page!</p>
+    <h1><%= data.blogTitle %></h1>
+    <p class="fw-bold"><%= data.blogSubtitle %></p>
   </body>
 </html>

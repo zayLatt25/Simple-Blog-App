@@ -26,7 +26,7 @@ router.post("/", (req, res) => {
       }
       if (row && row.password === password) {
         req.session.authenticated = true;
-        req.session.user = { email, password };
+        req.session.user = { email };
         const redirectTo = req.session.redirectTo || "/main-page";
         res.redirect(redirectTo);
       } else {
