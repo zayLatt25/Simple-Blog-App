@@ -18,11 +18,6 @@ global.db = new sqlite3.Database("./database.db", function (err) {
   }
 });
 
-// app.get("/", (req, res) => {
-//   console.log(req.session);
-//   res.render("main-page", { session: req.session });
-// });
-
 app.use(
   session({
     // My randomly generated 32 byte string
