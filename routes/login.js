@@ -23,7 +23,8 @@ router.post("/", (req, res, next) => {
       if (row && row.password === password) {
         req.session.authenticated = true;
         req.session.user = { email, password };
-        return;
+        const redirectTo = req.session.redirectTo || "/main-page";
+        res.redirect(redirectTo);
       } else {
         // Invalid username or password
         res.render("login-signup.ejs", {
