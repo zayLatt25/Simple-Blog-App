@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const port = 3000;
 var bodyParser = require("body-parser");
@@ -20,6 +21,16 @@ global.db = new sqlite3.Database("./database.db", function (err) {
 app.get("/", (req, res) => {
   res.render("main-page");
 });
+
+app.use(
+  session({
+    // My randomly generated 32 byte string
+    secret: "5e24189f28fec9e707411e0b9dce207bb629dc244eade1d64007f83b9b8d5f7d",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
 
 const usersRoutes = require("./routes/users");
 app.use("/users", usersRoutes);
