@@ -1,6 +1,5 @@
 const express = require("express");
 const session = require("express-session");
-
 const store = new session.MemoryStore();
 const app = express();
 const port = 3000;
@@ -37,32 +36,34 @@ app.use(
 
 // Middleware function to check login
 app.use((req, res, next) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    // If username or password is not provided, skip to the next middleware
+  if (!req.body.email || !req.body.password) {
+    // If username or password is not provided, continue to the next middleware
     return next();
   }
 
+  const { email, password } = req.body;
+
   if (req.session.authenticated) {
-    return res.json(req.body);
+    return next();
   } else {
     db.get(
-      "SELECT password FROM users WHERE username = ?",
-      [username],
+      "SELECT password FROM authors WHERE email = ?",
+      [email],
       (err, row) => {
         if (err) {
           console.error(err.message);
-          return res.sendStatus(500); // Internal Server Error
+          // Internal Server Error
+          res.sendStatus(500);
+          return;
         }
-
         if (row && row.password === password) {
           req.session.authenticated = true;
-          req.session.user = { username, password };
-          return res.sendStatus(200);
+          req.session.user = { email, password };
+          return next();
         } else {
           // Invalid username or password
-          return res.sendStatus(401);
+          res.sendStatus(401);
+          return;
         }
       }
     );
@@ -77,6 +78,10 @@ app.use("/reader-home", readerRoutes);
 
 const articleRoutes = require("./routes/article");
 app.use("/article", articleRoutes);
+
+app.use("/login", (req, res) => {
+  res.json({ message: "Login successful" });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
