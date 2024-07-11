@@ -2,13 +2,6 @@ PRAGMA foreign_keys=ON;
 
 BEGIN TRANSACTION;
 
--- CREATE TABLE IF NOT EXISTS email_accounts (
---     email_account_id INTEGER PRIMARY KEY AUTOINCREMENT,
---     email_address TEXT NOT NULL,
---     reader_id  INT, --the user that the email account belongs to
---     FOREIGN KEY (writer_id) REFERENCES users(writer_id)
--- );
-
 CREATE TABLE IF NOT EXISTS readers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
@@ -17,6 +10,9 @@ CREATE TABLE IF NOT EXISTS readers (
 CREATE TABLE IF NOT EXISTS authors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    displayName TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
     blogTitle TEXT NOT NULL,
     blogSubtitle TEXT NOT NULL
 );
@@ -34,12 +30,8 @@ CREATE TABLE IF NOT EXISTS articles (
 INSERT INTO readers ('name') VALUES ('Simon Star');
 INSERT INTO readers ('name') VALUES ('Dianne Dean');
 
-INSERT INTO authors ('name', 'blogTitle', 'blogSubtitle') VALUES ('Starry Traveler', 'Traveling the world', 'One country at a time');
-INSERT INTO authors ('name','blogTitle', 'blogSubtitle') VALUES ('Quantum Quill', 'Writing about the universe', 'One article at a time');
-
--- INSERT INTO email_accounts ('email_address', 'writer_id') VALUES ('simon@gmail.com', 1); 
--- INSERT INTO email_accounts ('email_address', 'writer_id') VALUES ('simon@hotmail.com', 1); 
--- INSERT INTO email_accounts ('email_address', 'writer_id') VALUES ('dianne@yahoo.co.uk', 2); 
+INSERT INTO authors ('name', 'displayName', 'email' ,'password', 'blogTitle', 'blogSubtitle') VALUES ('John Doe', 'Starry Traveler', 'john123@gmail.com', '12345', 'Traveling the world', 'One country at a time');
+INSERT INTO authors ('name', 'displayName', 'email' ,'password', 'blogTitle', 'blogSubtitle') VALUES ('Alex Green', 'Quantum Quill', 'alex.green@gmail.com', 'password123', 'Writing about the universe', 'One article at a time');
 
 INSERT INTO articles ('title', 'content', 'authorID') VALUES ('My first article', 'In the heart of the bustling city, nestled between towering skyscrapers and the constant hum of traffic, lay a small, serene park that often went unnoticed by the hurried passersby. This park, a verdant oasis amidst the concrete jungle, was a sanctuary for those who sought a moment of peace and solitude. The air here was different; it carried the sweet scent of blooming flowers and the fresh aroma of dew-kissed grass. As the morning sun began to rise, casting a golden hue across the landscape, the park came to life with the gentle chirping of birds and the soft rustling of leaves in the breeze. At one corner of the park stood an ancient oak tree, its gnarled branches stretching out like protective arms over a weathered wooden bench. This bench had seen countless stories unfold, from the elderly couple who visited every afternoon to relive their memories, to the young artist who found inspiration in the tranquility of the surroundings. Nearby, a small pond shimmered under the sunlight, its surface occasionally disturbed by the playful antics of ducks and the gentle splash of fish breaking the water. The pond’s edge was adorned with a variety of flowers, their vibrant colors reflecting in the clear water and creating a picturesque scene.
 In the center of the park, a winding path, lined with benches and lampposts, invited visitors to take a leisurely stroll. The path meandered through well-tended gardens, where the meticulous work of gardeners was evident in the perfectly trimmed hedges and the harmonious arrangement of plants. Each section of the garden seemed to tell a story of its own, with flowers of different seasons blooming in unison, creating a tapestry of colors and fragrances.
