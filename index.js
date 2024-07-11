@@ -58,36 +58,6 @@ app.use("/reader-home", readerRoutes);
 const articleRoutes = require("./routes/article");
 app.use("/article", articleRoutes);
 
-app.use("/login", (req, res) => {
-  if (!req.body.email || !req.body.password) {
-    // If username or password is not provided, continue to the next middleware
-    return next();
-  }
-
-  const { email, password } = req.body;
-  db.get(
-    "SELECT password FROM authors WHERE email = ?",
-    [email],
-    (err, row) => {
-      if (err) {
-        console.error(err.message);
-        // Internal Server Error
-        res.sendStatus(500);
-        return;
-      }
-      if (row && row.password === password) {
-        req.session.authenticated = true;
-        req.session.user = { email, password };
-        return next();
-      } else {
-        // Invalid username or password
-        res.sendStatus(401);
-        return;
-      }
-    }
-  );
-});
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
