@@ -8,6 +8,7 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"> 
     <link href="/css/styles.css" rel="stylesheet" />
   </head>
   <body>
@@ -16,22 +17,25 @@
       <div class="my-4">
         <h2>Newly Released</h2>
         <div class="row">
-            <% newArticles.forEach(function(article) { %> 
-                <div class="col-md-4">
-                  <a href = "/article/<%= article.id %>">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title"><%= article.title %></h5>
-                          <h6 class="card-subtitle mb-2 text-muted">
-                              By <%= article.authorName %>  <%= article.createdAt %>
-                          </h6>
-                          <p class="card-text"><%= cutText(article.content, 25) %></p>
-                      </div>
+          <% newArticles.forEach(function(article) { %> 
+            <div class="col-md-4">
+              <a href = "/article/<%= article.id %>">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= article.title %></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        By <%= article.authorName %>  <%= article.createdAt %>
+                    </h6>
+                    <p class="card-text"><%= cutText(article.content, 25) %></p>
+                    <div class="bg-light p-2 text-center me-2" style="display: inline-block; width: auto;">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                      <span><%= article.likes %></span>
+                    </div>
                   </div>
-                </a>
-                    
                 </div>
-            <% }); %>
+              </a>  
+            </div>
+          <% }); %>
         </div>
       </div>
       <div class="my-4">
@@ -53,6 +57,10 @@
                         <h6 class="card-subtitle mb-1 text-muted">
                           <%= article.createdAt %>
                         </h6>
+                        <div class="bg-light p-2 text-center me-2" style="display: inline-block; width: auto;">
+                          <i class="bi bi-hand-thumbs-up"></i>
+                          <span><%= article.likes %></span>
+                        </div>
                       </div>
                       <div class="col-md-8">
                         <p class="card-text"><%= cutText(article.content, 25) %></p>

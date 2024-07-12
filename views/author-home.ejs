@@ -34,10 +34,10 @@
   </head>
   <body>
     <%- include('partials/nav-bar') %>
-    <h1><%= author.blogTitle %></h1>
-    <p class="fw-bold"><%= author.blogSubtitle %></p>
     <div class = "container">
-      <h2>All Articles</h2>
+      <h1><%= author.blogTitle %></h1>
+      <p class="fw-bold"><%= author.blogSubtitle %></p>
+      <h2>Articles</h2>
       <div class="row">
         <% articles.forEach(function(article) { %> 
           <% if (article.createdAt) { %> 
@@ -94,6 +94,7 @@
             </div>
           <% }; %>
         <% }); %>
+      </div>
     </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog">
