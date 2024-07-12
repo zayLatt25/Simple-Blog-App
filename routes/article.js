@@ -13,7 +13,10 @@ router.get("/:articleId", (req, res, next) => {
     if (err) {
       next(err);
     } else if (article) {
-      res.render("article.ejs", { article });
+      res.render("article.ejs", {
+        article,
+        session: req.session.authenticated,
+      });
     } else {
       res.status(404).send("Article not found");
     }
