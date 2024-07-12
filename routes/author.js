@@ -43,6 +43,7 @@ router.get("/home", (req, res) => {
   });
 });
 
+// Fetch articles and its data for editing
 router.get("/:articleId/edit", (req, res) => {
   const { articleId } = req.params;
   const { id } = req.session.user;
@@ -69,13 +70,42 @@ router.get("/:articleId/edit", (req, res) => {
   });
 });
 
-router.post("/new-article", (req, res) => {
-  const { title, content, published } = req.body;
-  const authorID = req.session.user.id;
+// Update the database with new edited article data
+router.post("/:articleId/edit-article", (req, res) => {
+  const { title, content, action } = req.body;
+  const { articleId } = req.params;
 
-  const query = `
-        INSERT INTO articles (title, content, authorID)
-        VALUES (?, ?, ?);`;
+  const queryEdit = `UPDATE articles SET title = ?, content = ? WHERE id = ?;`;
+  const queryPublish = `UPDATE articles SET published = ? WHERE id = ?;`;
+
+  if (action === "draft") {
+    db.run(queryEdit, [title, content, articleId], (err) => {
+      if (err) {
+        res.sendStatus(500);
+        console.log(err);
+        return;
+      }
+      res.redirect("/author/home");
+    });
+  } else if (action === "publish") {
+    db.run(queryPublish, ["true", articleId], (err) => {
+      if (err) {
+        res.sendStatus(500);
+        console.log(err);
+        return;
+      }
+      res.redirect("/author/home");
+    });
+  }
 });
+
+// router.post("/new-article", (req, res) => {
+//   const { title, content, published } = req.body;
+//   const authorID = req.session.user.id;
+
+//   const query = `
+//         INSERT INTO articles (title, content, authorID)
+//         VALUES (?, ?, ?);`;
+// });
 
 module.exports = router;
