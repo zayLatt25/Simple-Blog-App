@@ -3,13 +3,43 @@ const router = express.Router();
 const { cutText } = require("../utils/helper-functions");
 
 router.get("/home", (req, res, next) => {
-  queryNewArticles =
-    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, authors.name AS authorName FROM articles JOIN authors ON articles.authorID = authors.id ORDER BY articles.createdAt DESC LIMIT 3";
+  const queryNewArticles = `
+        SELECT 
+            ar.id, 
+            ar.title, 
+            ar.content,
+            ar.likes, 
+            ar.createdAt, 
+            ar.updatedAt, 
+            au.name AS authorName 
+        FROM 
+            articles ar 
+        JOIN 
+            authors au ON ar.authorID = au.id 
+        WHERE 
+            ar.published = 'TRUE'
+        ORDER BY 
+            ar.createdAt DESC LIMIT 3`;
 
-  queryFeaturedArticles =
-    "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, authors.name AS authorName FROM articles JOIN authors ON articles.authorID = authors.id";
+  const queryFeaturedArticles = `
+        SELECT 
+            ar.id, 
+            ar.title, 
+            ar.content, 
+            ar.likes, 
+            ar.createdAt, 
+            ar.updatedAt, 
+            au.name AS authorName  
+        FROM 
+            articles ar
+        JOIN 
+            authors au ON ar.authorID = au.id
+        WHERE 
+            ar.published = 'TRUE'
+        ORDER BY
+            ar.likes DESC LIMIT 3`;
 
-  queryBlogs = "SELECT name, blogTitle, blogSubtitle FROM authors";
+  const queryBlogs = `SELECT name, blogTitle, blogSubtitle FROM authors`;
 
   db.all(queryNewArticles, function (err, newArticles) {
     if (err) {

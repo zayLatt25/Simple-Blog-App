@@ -4,10 +4,10 @@ const router = express.Router();
 router.get("/:articleId", (req, res, next) => {
   const articleId = req.params.articleId;
 
-  const queryArticle = ` SELECT articles.*, authors.name AS authorName
-    FROM articles
-    JOIN authors ON articles.authorID = authors.id
-    WHERE articles.id = ?`;
+  const queryArticle = ` SELECT ar.*, au.name AS authorName
+    FROM articles ar
+    JOIN authors au ON ar.authorID = au.id
+    WHERE ar.id = ?`;
 
   db.get(queryArticle, [articleId], (err, article) => {
     if (err) {
@@ -18,7 +18,7 @@ router.get("/:articleId", (req, res, next) => {
         session: req.session.authenticated,
       });
     } else {
-      res.status(404).send("Article not found");
+      res.status(404).send("Article not found! Please try again");
     }
   });
 });

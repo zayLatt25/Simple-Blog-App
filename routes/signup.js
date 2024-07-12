@@ -26,7 +26,7 @@ router.post("/", (req, res) => {
       } else {
         // User created successfully
         req.session.authenticated = true;
-        req.session.user = { email };
+        req.session.user = { id: this.lastID };
         res.redirect("/author/home");
       }
     }

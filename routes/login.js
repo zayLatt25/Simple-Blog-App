@@ -26,9 +26,26 @@ router.post("/", (req, res) => {
       }
       if (row && row.password === password) {
         req.session.authenticated = true;
-        req.session.user = { email };
-        const redirectTo = req.session.redirectTo || "/main-page";
-        res.redirect(redirectTo);
+
+        db.get(
+          "SELECT id FROM authors WHERE email = ?",
+          [email],
+          (err, author) => {
+            if (err) {
+              console.error(err.message);
+              // Internal Server Error
+              res.render("login-signup.ejs", {
+                form: "login",
+                status: 500,
+                session: req.session.authenticated,
+              });
+              return;
+            }
+            req.session.user = { id: author.id };
+            const redirectTo = req.session.redirectTo || "/";
+            res.redirect(redirectTo);
+          }
+        );
       } else {
         // Invalid username or password
         res.render("login-signup.ejs", {
