@@ -70,9 +70,6 @@ app.use("/author", checkLogin, authorRoutes);
 const usersRoutes = require("./routes/users");
 app.use("/users", checkLogin, usersRoutes);
 
-const writerRoutes = require("./routes/writer-home");
-app.use("/writer-home", writerRoutes);
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
