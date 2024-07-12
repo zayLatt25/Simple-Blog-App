@@ -44,6 +44,14 @@
         color: var(--card-color);
         box-shadow: none;
       }
+
+      .card-text{
+        font-size: 15px;
+      }
+
+      .card-subtitle {
+        font-size: 13px;
+      }
     </style>
   </head>
   <body>
@@ -58,10 +66,10 @@
                 <a href = "/article/<%= article.id %>">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title"><%= article.title %></h5>
-                      <h6 class="card-subtitle mb-2 text-muted">
+                      <p class="card-title fw-bold mb-0"><%= article.title %></p>
+                      <p class="card-subtitle mb-2 text-muted opacity-75">
                           By <%= article.authorName %>  <%= article.createdAt %>
-                      </h6>
+                      </p>
                       <p class="card-text"><%= cutText(article.content, 25) %></p>
                       <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
                         <i class="bi bi-hand-thumbs-up text-white"></i>
@@ -88,10 +96,10 @@
                           <p class="card-title pb-0 fw-bold">
                             <%= article.title %>
                           </p>
-                          <h6 class="card-subtitle mb-1 text-muted">
+                          <h6 class="card-subtitle mb-1 text-muted opacity-75">
                             By <%= article.authorName %>
                           </h6>
-                          <h6 class="card-subtitle mb-1 text-muted">
+                          <h6 class="card-subtitle mb-3 text-muted opacity-75">
                             <%= article.createdAt %>
                           </h6>
                           <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
@@ -120,10 +128,10 @@
               <div class="mb-3 card" id="visit-card">
                 <div class="card-body">
                   <h5 class="card-title"><%= blog.blogTitle %></h5>
-                  <h6 class="card-subtitle mb-1 text-muted">
+                  <h6 class="card-text mb-1 text-muted">
                     <%= blog.blogSubtitle %>
                   </h6>
-                  <h6 class="card-subtitle mb-2 text-muted">By <%= blog.name %></h6>
+                  <h6 class="card-text mb-2 text-muted">By <%= blog.name %></h6>
                 </div>
               </div>
             </div>
