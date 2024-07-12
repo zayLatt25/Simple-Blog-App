@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= article.title %></title>
-    <!-- Bootstrap CSS -->
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"> 
     <style>
       .article-box {
         border: 1px solid #dee2e6;
@@ -20,15 +20,58 @@
   <body>
     <%- include('partials/nav-bar') %>
     <div class="container">
-      <div class="text-center">
-        <h1><%= article.title %></h1>
-        <hr />
-      </div>
-      <p class="text-center">
-        By <%= article.authorName %> on <%= article.createdAt %>
-      </p>
-      <div class="article-box">
-        <p><%= article.content %></p>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="text-center">
+            <h1><%= article.title %></h1>
+             <hr />
+            </div>
+            <p class="text-center">
+              By <%= article.authorName %> on <%= article.createdAt %>
+            </p>
+            <div class="article-box">
+              <p><%= article.content %></p>
+              <form action="/article/<%= article.id %>/like" method="POST" class="d-inline">
+                <button id="like-button-<%= article.id %>" type="submit" class="like-button 
+                  d-inline-block p-2" style="border: 1px solid #ccc; border-radius: 4px; 
+                  background-color: #fff; cursor: pointer;">
+                  <i class="bi bi-hand-thumbs-up"></i>
+                  <span><%= article.likes %></span>
+                </button>
+              </form>
+            </div>
+            <div class="add-comment">
+              <h4>Add a Comment</h4>
+              <form action="/article/<%= article.id %>/comments" method="POST">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" name="readerName" required>
+                </div>
+                <div class="form-group">
+                  <label for="text">Comment</label>
+                  <textarea class="form-control" id="text" name="content" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="comments-section">
+              <h3>Comments</h3>
+              <div class="comments-list">
+                <% comments.forEach(function(comment) { %>
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <p><strong>By: <%= comment.readerName %></strong></p>
+                      <p><%= comment.createdAt %></p>
+                      <p><%= comment.content %></p>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

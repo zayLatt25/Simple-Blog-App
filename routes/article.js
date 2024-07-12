@@ -9,16 +9,56 @@ router.get("/:articleId", (req, res, next) => {
     JOIN authors au ON ar.authorID = au.id
     WHERE ar.id = ?`;
 
+  const queryComments = `SELECT * FROM comments WHERE articleID = ?`;
+
   db.get(queryArticle, [articleId], (err, article) => {
     if (err) {
-      next(err);
-    } else if (article) {
-      res.render("article.ejs", {
-        article,
-        session: req.session.authenticated,
-      });
-    } else {
+      res.sendStatus(500);
+    } else if (!article) {
       res.status(404).send("Article not found! Please try again");
+    } else {
+      db.all(queryComments, [articleId], (err, comments) => {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          res.render("article.ejs", {
+            article,
+            comments,
+            session: req.session.authenticated,
+          });
+        }
+      });
+    }
+  });
+});
+
+router.post("/:articleId/comments", (req, res, next) => {
+  const { articleId } = req.params;
+  const { content, readerName } = req.body;
+
+  const query = `INSERT INTO comments (articleID, readerName, content)
+    VALUES (?, ?, ?)`;
+
+  db.run(query, [articleId, readerName, content], function (err) {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      res.redirect(`/article/${articleId}`);
+    }
+  });
+});
+
+router.post("/:articleId/like", (req, res, next) => {
+  const { articleId } = req.params;
+
+  const query = `UPDATE articles SET likes = likes + 1 WHERE id = ?`;
+
+  db.run(query, [articleId], function (err) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.redirect(`/article/${articleId}`);
     }
   });
 });
