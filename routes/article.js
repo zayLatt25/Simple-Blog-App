@@ -18,7 +18,7 @@ router.get("/:articleId", (req, res, next) => {
         session: req.session.authenticated,
       });
     } else {
-      res.status(404).send("Article not found");
+      res.status(404).send("Article not found! Please try again");
     }
   });
 });

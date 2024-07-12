@@ -63,13 +63,15 @@ router.get("/:articleId/edit", (req, res) => {
       res.send("Error 403: Unable to access this page!");
       return;
     }
-    res.render("edit-article.ejs", {
+    res.render("manage-article.ejs", {
       article,
+      mode: "edit",
       session: req.session.authenticated,
     });
   });
 });
 
+// TODO: add authentication
 // Update the database with new edited article data
 router.post("/:articleId/edit-article", (req, res) => {
   const { title, content, action } = req.body;
@@ -88,7 +90,7 @@ router.post("/:articleId/edit-article", (req, res) => {
       res.redirect("/author/home");
     });
   } else if (action === "publish") {
-    db.run(queryPublish, ["true", articleId], (err) => {
+    db.run(queryPublish, ["TRUE", articleId], (err) => {
       if (err) {
         res.sendStatus(500);
         console.log(err);
@@ -99,13 +101,27 @@ router.post("/:articleId/edit-article", (req, res) => {
   }
 });
 
-// router.post("/new-article", (req, res) => {
-//   const { title, content, published } = req.body;
-//   const authorID = req.session.user.id;
+router.get("/add", (req, res) => {
+  res.render("manage-article.ejs", {
+    article: null,
+    session: req.session.authenticated,
+  });
+});
 
-//   const query = `
-//         INSERT INTO articles (title, content, authorID)
-//         VALUES (?, ?, ?);`;
-// });
+router.post("/add-article", (req, res) => {
+  const { title, content, published } = req.body;
+  const authorID = req.session.user.id;
+
+  const queryAdd = `INSERT INTO articles (title, content, published, authorID) VALUES (?, ?, ?, ?);`;
+
+  db.run(queryAdd, [title, content, published, authorID], (err) => {
+    if (err) {
+      res.sendStatus(500);
+      console.log(err);
+      return;
+    }
+    res.redirect("/author/home");
+  });
+});
 
 module.exports = router;

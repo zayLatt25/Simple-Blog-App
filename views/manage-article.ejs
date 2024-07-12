@@ -63,16 +63,19 @@
       </a>
     </div>
     <div class="container">
-      <form action="/author/<%= article.id %>/edit-article" method="post">
+      <form
+        action="/author/<%= article ? article.id + '/edit-article' : 'add-article' %>"
+        method="post"
+      >
         <input
           type="text"
           name="title"
           class="title-input"
-          value="<%= article.title %>"
+          value="<%= article ? article.title : '' %>"
           placeholder="Title"
         />
         <textarea name="content" class="content-textarea" placeholder="Content">
-<%= article.content %></textarea
+<%= article ? article.content : '' %></textarea
         >
         <div class="button-group">
           <button
