@@ -52,9 +52,20 @@
                       <span class="badge bg-secondary">Draft</span>
                     <% } %>
                   </h5>
-                  <h6 class="card-subtitle mb-2 text-muted">
-                    By <%= article.authorName %> on <%= article.createdAt %>
-                  </h6>
+                  <% if (article.published == 'TRUE') { %>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                      Published: <%= article.publishedAt %>
+                    </h6>
+                  <% } else {%>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                      Created: <%= article.createdAt %>
+                    </h6>
+                    <% if (article.createdAt != article.updatedAt) { %>
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        Last Modified: <%= article.updatedAt %>
+                      </h6>
+                    <% } %>
+                  <% } %>
                   <p class="card-text"><%= cutText(article.content, 25) %></p>
                   <div class="d-flex mt-3 justify-content-between">
                     <div class="d-flex">
@@ -68,7 +79,7 @@
                       </div>
                       <div class="icon-container bg-light p-2 text-center">
                         <i class="bi bi-eye icon"></i>
-                        <span><%= article.comments %></span>
+                        <span><%= article.views %></span>
                       </div>
                     </div>
                     <div class="d-flex">
@@ -82,8 +93,7 @@
                         <% } else { %>
                           <div class="bg-light p-2 text-center me-2">
                             <a href="/article/<%= article.id %>" class="text-decoration-none no-link-style">
-                              <i class="bi bi-eye"></i>
-                              <span>View</span>
+                              <span>View in Reader</span>
                             </a>
                           </div>
                         <% } %>
