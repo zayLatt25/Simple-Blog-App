@@ -9,15 +9,17 @@ router.get("/home", (req, res) => {
   // the author's info will still be fetched'
   const query = `
         SELECT 
-            a.displayName,
-            a.blogTitle,
-            a.blogSubtitle,
+            au.id,
+            au.displayName,
+            au.blogTitle,
+            au.blogSubtitle,
             ar.title,
             ar.content,
+            ar.published,
             ar.createdAt,
             ar.updatedAt
         FROM 
-            authors a
+            authors au
         LEFT JOIN 
             articles ar ON a.id = ar.authorID
         WHERE 
