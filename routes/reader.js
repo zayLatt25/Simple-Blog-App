@@ -9,35 +9,47 @@ router.get("/home", (req, res, next) => {
             ar.title, 
             ar.content,
             ar.likes, 
-            ar.createdAt, 
-            ar.updatedAt, 
-            au.name AS authorName 
+            ar.views,
+            ar.publishedAt, 
+            au.name AS authorName,
+            COUNT(c.id) AS comments
         FROM 
             articles ar 
         JOIN 
             authors au ON ar.authorID = au.id 
+        LEFT JOIN 
+            comments c ON ar.id = c.articleID
         WHERE 
             ar.published = 'TRUE'
+        GROUP BY 
+            ar.id, ar.title, ar.content, ar.likes, ar.views, ar.publishedAt, au.name
         ORDER BY 
-            ar.createdAt DESC LIMIT 3`;
+            ar.createdAt DESC 
+        LIMIT 3`;
 
   const queryFeaturedArticles = `
         SELECT 
             ar.id, 
             ar.title, 
-            ar.content, 
+            ar.content,
             ar.likes, 
-            ar.createdAt, 
-            ar.updatedAt, 
-            au.name AS authorName  
+            ar.views,
+            ar.publishedAt, 
+            au.name AS authorName,
+            COUNT(c.id) AS comments
         FROM 
-            articles ar
+            articles ar 
         JOIN 
-            authors au ON ar.authorID = au.id
+            authors au ON ar.authorID = au.id 
+        LEFT JOIN 
+            comments c ON ar.id = c.articleID
         WHERE 
             ar.published = 'TRUE'
+        GROUP BY 
+            ar.id, ar.title, ar.content, ar.likes, ar.views, ar.publishedAt, au.name
         ORDER BY
-            ar.likes DESC LIMIT 7`;
+            ar.likes DESC 
+        LIMIT 7`;
 
   const queryBlogs = `SELECT name, blogTitle, blogSubtitle FROM authors`;
 
