@@ -11,7 +11,6 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const { name, displayName, email, password, blogTitle, blogSubtitle } =
     req.body;
-  console.log(req.body);
   db.run(
     "INSERT INTO authors (name, displayName, email, password, blogTitle, blogSubtitle) VALUES (?, ?, ?, ?, ?, ?)",
     [name, displayName, email, password, blogTitle, blogSubtitle],
