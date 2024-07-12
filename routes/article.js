@@ -4,10 +4,15 @@ const router = express.Router();
 router.get("/:articleId", (req, res, next) => {
   const articleId = req.params.articleId;
 
-  const queryArticle = ` SELECT ar.*, au.name AS authorName
-    FROM articles ar
-    JOIN authors au ON ar.authorID = au.id
-    WHERE ar.id = ?`;
+  const queryArticle = ` 
+        SELECT 
+            ar.*, au.name AS authorName
+        FROM 
+            articles ar
+        JOIN 
+            authors au ON ar.authorID = au.id
+        WHERE 
+            ar.id = ?`;
 
   const queryComments = `SELECT * FROM comments WHERE articleID = ?`;
 

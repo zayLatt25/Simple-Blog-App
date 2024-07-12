@@ -31,7 +31,7 @@
             </p>
             <div class="article-box">
               <p><%= article.content %></p>
-              <% if (session && session.id != article.authorID) {%>
+              <% if (session && session.id != article.authorID || !session) {%>
                 <a href="/article/<%= article.id %>/like" class="d-inline">
                   <button id="like-button-<%= article.id %>" type="submit" class="like-button 
                     d-inline-block p-2" style="border: 1px solid #ccc; border-radius: 4px; 
@@ -47,7 +47,7 @@
                 </div>
               <% } %>
             </div>
-            <% if (session && session.id != article.authorID) {%>
+            <% if (session && session.id != article.authorID || !session) {%>
               <div class="add-comment">
                 <h4>Add a Comment</h4>
                 <form action="/article/<%= article.id %>/comments" method="POST">
