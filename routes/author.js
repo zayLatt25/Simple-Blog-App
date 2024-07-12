@@ -19,7 +19,9 @@ router.get("/home", (req, res) => {
         WHERE 
             ar.authorID = ?
         GROUP BY 
-            ar.id, ar.title, ar.content, ar.views, ar.likes, ar.published, ar.authorID, ar.createdAt, ar.updatedAt;`;
+            ar.id, ar.title, ar.content, ar.views, ar.likes, ar.published, ar.authorID, ar.createdAt, ar.updatedAt
+        ORDER BY
+            ar.createdAt DESC;`;
 
   db.get(`SELECT * from authors WHERE id = ?;`, [authorId], (err, author) => {
     if (err) {
