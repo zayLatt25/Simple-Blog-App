@@ -12,11 +12,11 @@ router.get("/home", (req, res, next) => {
             ar.createdAt, 
             ar.updatedAt, 
             au.name AS authorName 
-          FROM 
+        FROM 
             articles ar 
-          JOIN 
+        JOIN 
             authors ON ar.authorID = au.id 
-          ORDER BY 
+        ORDER BY 
             ar.createdAt DESC LIMIT 3`;
 
   const queryFeaturedArticles = `
@@ -28,10 +28,12 @@ router.get("/home", (req, res, next) => {
             ar.createdAt, 
             ar.updatedAt, 
             au.name AS authorName  
-          FROM 
+        FROM 
             articles 
-          JOIN 
-            authors ON articles.authorID = authors.id`;
+        JOIN 
+            authors ON articles.authorID = authors.id
+        ORDER BY
+            articles.likes DESC LIMIT 3`;
 
   const queryBlogs = `SELECT name, blogTitle, blogSubtitle FROM authors`;
 
