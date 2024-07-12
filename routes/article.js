@@ -7,7 +7,7 @@ router.get("/:articleId", (req, res, next) => {
 
   const queryArticle = ` SELECT ar.*, au.name AS authorName
     FROM articles ar
-    LEFT JOIN authors au ON ar.authorID = au.id
+    JOIN authors au ON ar.authorID = au.id
     WHERE ar.id = ?`;
 
   db.get(queryArticle, [articleId], (err, article) => {
