@@ -38,6 +38,16 @@ app.post("/logout", (req, res) => {
   });
 });
 
+// Middleware function to check login
+function checkLogin(req, res, next) {
+  if (req.session.authenticated) {
+    next();
+  } else {
+    req.session.redirectTo = req.originalUrl;
+    res.redirect("/login");
+  }
+}
+
 const mainPageRoutes = require("./routes/main-page");
 app.use("/", mainPageRoutes);
 
@@ -53,21 +63,12 @@ app.use("/reader", readerRoutes);
 const articleRoutes = require("./routes/article");
 app.use("/article", articleRoutes);
 
-// Middleware function to check login
-app.use((req, res, next) => {
-  if (req.session.authenticated) {
-    next();
-  } else {
-    req.session.redirectTo = req.originalUrl;
-    res.redirect("/login");
-  }
-});
-
+//Routes that require login are protected by middleware
 const authorRoutes = require("./routes/author");
-app.use("/author", authorRoutes);
+app.use("/author", checkLogin, authorRoutes);
 
 const usersRoutes = require("./routes/users");
-app.use("/users", usersRoutes);
+app.use("/users", checkLogin, usersRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
