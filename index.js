@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const port = 3000;
 var bodyParser = require("body-parser");
@@ -17,18 +18,57 @@ global.db = new sqlite3.Database("./database.db", function (err) {
   }
 });
 
-app.get("/", (req, res) => {
-  res.render("main-page");
+app.use(
+  session({
+    // My randomly generated 32 byte string
+    secret: "5e24189f28fec9e707411e0b9dce207bb629dc244eade1d64007f83b9b8d5f7d",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Logout failed!");
+    }
+    res.clearCookie("connect.sid");
+    res.status(200).send("Logged out successfully");
+  });
 });
 
-const usersRoutes = require("./routes/users");
-app.use("/users", usersRoutes);
+// Middleware function to check login
+function checkLogin(req, res, next) {
+  if (req.session.authenticated) {
+    next();
+  } else {
+    req.session.redirectTo = req.originalUrl;
+    res.redirect("/login");
+  }
+}
 
-const readerRoutes = require("./routes/reader-home");
-app.use("/reader-home", readerRoutes);
+const mainPageRoutes = require("./routes/main-page");
+app.use("/", mainPageRoutes);
+
+const loginRoutes = require("./routes/login");
+app.use("/login", loginRoutes);
+
+const signUpRoutes = require("./routes/signup");
+app.use("/signup", signUpRoutes);
+
+const readerRoutes = require("./routes/reader");
+app.use("/reader", readerRoutes);
 
 const articleRoutes = require("./routes/article");
 app.use("/article", articleRoutes);
+
+//Routes that require login are protected by middleware
+const authorRoutes = require("./routes/author");
+app.use("/author", checkLogin, authorRoutes);
+
+const usersRoutes = require("./routes/users");
+app.use("/users", checkLogin, usersRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

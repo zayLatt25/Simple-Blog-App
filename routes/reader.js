@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const { cutText } = require("../utils/helper-functions");
 
-router.get("/", (req, res, next) => {
+router.get("/home", (req, res, next) => {
   queryNewArticles =
     "SELECT articles.id, articles.title, articles.content, articles.createdAt, articles.updatedAt, authors.name AS authorName FROM articles JOIN authors ON articles.authorID = authors.id ORDER BY articles.createdAt DESC LIMIT 3";
 
@@ -26,6 +27,8 @@ router.get("/", (req, res, next) => {
                 newArticles,
                 featuredArticles,
                 blogs,
+                session: req.session.authenticated,
+                cutText,
               });
             }
           });
