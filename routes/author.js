@@ -7,35 +7,40 @@ router.get("/home", (req, res) => {
 
   // Left join is used so that if the author has no articles,
   // the author's info will still be fetched'
-  const query = `
-        SELECT 
-            au.id,
-            au.displayName,
-            au.blogTitle,
-            au.blogSubtitle,
-            ar.title,
-            ar.content,
-            ar.likes,
-            ar.published,
-            ar.createdAt,
-            ar.updatedAt
-        FROM 
-            authors au
-        LEFT JOIN 
-            articles ar ON au.id = ar.authorID
-        WHERE 
-            au.id = ?;`;
+  const queryAuthor = `SELECT * from authors WHERE id = ?;`;
 
-  db.all(query, [authorId], (err, data) => {
+  const queryCommentCount = `
+        SELECT 
+            ar.id AS articleID,
+            ar.*,
+            COUNT(c.id) AS comments
+        FROM 
+            articles ar
+        LEFT JOIN 
+            comments c ON ar.id = c.articleID
+        WHERE 
+            ar.authorID = ?
+        GROUP BY 
+            ar.id, ar.title, ar.content, ar.views, ar.likes, ar.published, ar.authorID, ar.createdAt, ar.updatedAt;`;
+
+  db.get(queryAuthor, [authorId], (err, author) => {
     if (err) {
       res.sendStatus(500);
+      console.log(err);
       return;
     }
-    console.log(data);
-    res.render("author-home.ejs", {
-      data,
-      session: req.session.authenticated,
-      cutText,
+    db.all(queryCommentCount, [authorId], (err, articles) => {
+      if (err) {
+        res.sendStatus(500);
+        console.log(err);
+        return;
+      }
+      res.render("author-home.ejs", {
+        author,
+        articles,
+        session: req.session.authenticated,
+        cutText,
+      });
     });
   });
 });
