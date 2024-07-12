@@ -16,6 +16,8 @@ router.get("/home", (req, res, next) => {
             articles ar 
         JOIN 
             authors au ON ar.authorID = au.id 
+        WHERE 
+            ar.published = 'TRUE'
         ORDER BY 
             ar.createdAt DESC LIMIT 3`;
 
@@ -32,6 +34,8 @@ router.get("/home", (req, res, next) => {
             articles ar
         JOIN 
             authors au ON ar.authorID = au.id
+        WHERE 
+            ar.published = 'TRUE'
         ORDER BY
             ar.likes DESC LIMIT 3`;
 

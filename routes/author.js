@@ -73,14 +73,14 @@ router.get("/:articleId/edit", (req, res) => {
 
 // TODO: add authentication
 // Update the database with new edited article data
-router.post("/:articleId/edit-article", (req, res) => {
-  const { title, content, action } = req.body;
-  const { articleId } = req.params;
+router.post("/:articleId/edit-article/:published", (req, res) => {
+  const { title, content } = req.body;
+  const { articleId, published } = req.params;
 
   const queryEdit = `UPDATE articles SET title = ?, content = ? WHERE id = ?;`;
   const queryPublish = `UPDATE articles SET published = ? WHERE id = ?;`;
 
-  if (action === "draft") {
+  if (published === "false") {
     db.run(queryEdit, [title, content, articleId], (err) => {
       if (err) {
         res.sendStatus(500);
@@ -89,7 +89,7 @@ router.post("/:articleId/edit-article", (req, res) => {
       }
       res.redirect("/author/home");
     });
-  } else if (action === "publish") {
+  } else {
     db.run(queryPublish, ["TRUE", articleId], (err) => {
       if (err) {
         res.sendStatus(500);
@@ -108,8 +108,9 @@ router.get("/add", (req, res) => {
   });
 });
 
-router.post("/add-article", (req, res) => {
-  const { title, content, published } = req.body;
+router.post("/add-article/:published", (req, res) => {
+  const { title, content } = req.body;
+  const { published } = req.params;
   const authorID = req.session.user.id;
 
   const queryAdd = `INSERT INTO articles (title, content, published, authorID) VALUES (?, ?, ?, ?);`;

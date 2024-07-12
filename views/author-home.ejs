@@ -47,7 +47,7 @@
                   <div class="card-body">
                     <h5 class="card-title d-flex justify-content-between align-items-center">
                       <span><%= article.title %></span>
-                      <% if (article.published) { %>
+                      <% if (article.published == 'TRUE') { %>
                         <span class="badge bg-success">Published</span>
                       <% } else { %>
                         <span class="badge bg-secondary">Draft</span>
