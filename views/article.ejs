@@ -32,14 +32,14 @@
             <div class="article-box">
               <p><%= article.content %></p>
               <% if (session && session.id != article.authorID) {%>
-                <form action="/article/<%= article.id %>/like" method="POST" class="d-inline">
+                <a href="/article/<%= article.id %>/like" class="d-inline">
                   <button id="like-button-<%= article.id %>" type="submit" class="like-button 
                     d-inline-block p-2" style="border: 1px solid #ccc; border-radius: 4px; 
                     background-color: #fff; cursor: pointer;">
                     <i class="bi bi-hand-thumbs-up"></i>
                     <span><%= article.likes %></span>
                   </button>
-                </form>
+                </a>
               <% } else { %>
                 <div class="bg-light p-2 text-center me-2" style="display: inline-block; width: auto;">
                   <i class="bi bi-hand-thumbs-up"></i>

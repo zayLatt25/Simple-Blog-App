@@ -48,7 +48,7 @@ router.post("/:articleId/comments", (req, res, next) => {
   });
 });
 
-router.post("/:articleId/like", (req, res, next) => {
+router.get("/:articleId/like", (req, res, next) => {
   const { articleId } = req.params;
 
   const query = `UPDATE articles SET likes = likes + 1 WHERE id = ?`;
