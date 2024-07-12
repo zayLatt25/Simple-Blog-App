@@ -71,17 +71,18 @@ router.get("/:articleId/edit", (req, res) => {
   });
 });
 
-// TODO: add authentication
 // Update the database with new edited article data
 router.post("/:articleId/edit-article/:published", (req, res) => {
   const { title, content } = req.body;
   const { articleId, published } = req.params;
+  // Authentication check to ensure that the user is the author of the article
+  const authorID = req.session.user.id;
 
-  const queryEdit = `UPDATE articles SET title = ?, content = ? WHERE id = ?;`;
-  const queryPublish = `UPDATE articles SET published = ? WHERE id = ?;`;
+  const queryEdit = `UPDATE articles SET title = ?, content = ? WHERE id = ? AND authorID = ?;`;
+  const queryPublish = `UPDATE articles SET published = ? WHERE id = ? AND authorID = ?;`;
 
-  if (published === "false") {
-    db.run(queryEdit, [title, content, articleId], (err) => {
+  if (published === "FALSE") {
+    db.run(queryEdit, [title, content, articleId, authorID], (err) => {
       if (err) {
         res.sendStatus(500);
         console.log(err);
@@ -90,7 +91,7 @@ router.post("/:articleId/edit-article/:published", (req, res) => {
       res.redirect("/author/home");
     });
   } else {
-    db.run(queryPublish, ["TRUE", articleId], (err) => {
+    db.run(queryPublish, ["TRUE", articleId, authorID], (err) => {
       if (err) {
         res.sendStatus(500);
         console.log(err);
