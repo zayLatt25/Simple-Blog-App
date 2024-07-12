@@ -21,9 +21,9 @@ router.get("/home", (req, res) => {
         FROM 
             authors au
         LEFT JOIN 
-            articles ar ON a.id = ar.authorID
+            articles ar ON au.id = ar.authorID
         WHERE 
-            a.email = ?;`;
+            au.email = ?;`;
 
   db.all(query, [email], (err, data) => {
     if (err) {
