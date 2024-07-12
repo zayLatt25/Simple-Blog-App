@@ -37,7 +37,7 @@ router.get("/home", (req, res, next) => {
         WHERE 
             ar.published = 'TRUE'
         ORDER BY
-            ar.likes DESC LIMIT 3`;
+            ar.likes DESC LIMIT 7`;
 
   const queryBlogs = `SELECT name, blogTitle, blogSubtitle FROM authors`;
 
