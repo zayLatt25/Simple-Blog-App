@@ -16,12 +16,22 @@ router.get("/:articleId", (req, res, next) => {
 
   const queryComments = `SELECT * FROM comments WHERE articleID = ?`;
 
+  const queryViews = `UPDATE articles SET views = views + 1 WHERE id = ?`;
+
   db.get(queryArticle, [articleId], (err, article) => {
     if (err) {
       res.sendStatus(500);
     } else if (!article) {
       res.status(404).send("Article not found! Please try again");
     } else {
+      const id = req.session.user ? req.session.user.id : null;
+      if (id !== article.authorID) {
+        db.run(queryViews, [articleId], (err) => {
+          if (err) {
+            res.sendStatus(500);
+          }
+        });
+      }
       db.all(queryComments, [articleId], (err, comments) => {
         if (err) {
           res.sendStatus(500);
