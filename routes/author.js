@@ -22,13 +22,26 @@ router.get("/home", (req, res) => {
         WHERE 
             a.email = ?;`;
 
-  db.get(query, [email], (err, data) => {
+  db.all(query, [email], (err, data) => {
     if (err) {
       res.sendStatus(500);
       return;
     }
-    // console.log(data);
-    res.render("author-home.ejs", { data, session: req.session.authenticated });
+    console.log(data);
+    res.render("author-home.ejs", {
+      data,
+      session: req.session.authenticated,
+      truncateText: function (text, wordLimit) {
+        if (!text) {
+          return "";
+        }
+        const words = text.split(" ");
+        if (words.length > wordLimit) {
+          return words.slice(0, wordLimit).join(" ") + "...";
+        }
+        return text;
+      },
+    });
   });
 });
 

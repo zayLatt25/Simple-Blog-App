@@ -9,11 +9,31 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <title><%= data.blogTitle %></title>
+    <title><%= data[0].blogTitle %></title>
   </head>
   <body>
     <%- include('partials/nav-bar') %>
-    <h1><%= data.blogTitle %></h1>
-    <p class="fw-bold"><%= data.blogSubtitle %></p>
+    <h1><%= data[0].blogTitle %></h1>
+    <p class="fw-bold"><%= data[0].blogSubtitle %></p>
+    <h2>All Articles</h2>
+    <div class="row">
+        <% data.forEach(function(article) { %> 
+          <% if (article.createdAt) { %> 
+            <div class="col-md-4">
+              <a href = "/article/<%= article.id %>">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= article.title %></h5>
+                      <h6 class="card-subtitle mb-2 text-muted">
+                          By <%= article.authorName %> on <%= article.createdAt %>
+                      </h6>
+                      <p class="card-text"><%= truncateText(article.content, 25) %></p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          <% }; %> 
+        <% }); %>
+    </div>
   </body>
 </html>
