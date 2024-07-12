@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { cutText } = require("../utils/helper-functions");
 
 router.get("/home", (req, res) => {
   const email = req.session.user.email;
@@ -31,16 +32,7 @@ router.get("/home", (req, res) => {
     res.render("author-home.ejs", {
       data,
       session: req.session.authenticated,
-      truncateText: function (text, wordLimit) {
-        if (!text) {
-          return "";
-        }
-        const words = text.split(" ");
-        if (words.length > wordLimit) {
-          return words.slice(0, wordLimit).join(" ") + "...";
-        }
-        return text;
-      },
+      cutText,
     });
   });
 });

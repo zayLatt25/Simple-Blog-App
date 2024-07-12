@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { cutText } = require("../utils/helper-functions");
 
 router.get("/home", (req, res, next) => {
   queryNewArticles =
@@ -27,6 +28,7 @@ router.get("/home", (req, res, next) => {
                 featuredArticles,
                 blogs,
                 session: req.session.authenticated,
+                cutText,
               });
             }
           });
