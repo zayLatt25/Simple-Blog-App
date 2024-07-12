@@ -34,9 +34,9 @@
   </head>
   <body>
     <%- include('partials/nav-bar') %>
-    <h1><%= author.blogTitle %></h1>
-    <p class="fw-bold"><%= author.blogSubtitle %></p>
     <div class = "container">
+      <h1><%= author.blogTitle %></h1>
+      <p class="fw-bold"><%= author.blogSubtitle %></p>
       <h2>All Articles</h2>
       <div class="row">
         <% articles.forEach(function(article) { %> 

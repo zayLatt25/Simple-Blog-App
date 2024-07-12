@@ -24,7 +24,7 @@ router.get("/:articleId", (req, res, next) => {
           res.render("article.ejs", {
             article,
             comments,
-            session: req.session.authenticated,
+            session: req.session.user,
           });
         }
       });
