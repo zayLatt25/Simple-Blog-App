@@ -3,7 +3,6 @@ const router = express.Router();
 
 router.get("/:articleId", (req, res, next) => {
   const articleId = req.params.articleId;
-  console.log(articleId);
 
   const queryArticle = ` SELECT ar.*, au.name AS authorName
     FROM articles ar
