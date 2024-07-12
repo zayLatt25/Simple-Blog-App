@@ -15,8 +15,9 @@
     <%- include('partials/nav-bar') %>
     <h1><%= data[0].blogTitle %></h1>
     <p class="fw-bold"><%= data[0].blogSubtitle %></p>
-    <h2>All Articles</h2>
-    <div class="row">
+    <div class = "container">
+      <h2>All Articles</h2>
+      <div class="row">
         <% data.forEach(function(article) { %> 
           <% if (article.createdAt) { %> 
             <div class="col-md-4">
@@ -35,5 +36,7 @@
           <% }; %> 
         <% }); %>
     </div>
+    </div>
+    
   </body>
 </html>
