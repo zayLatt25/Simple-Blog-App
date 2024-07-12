@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
               return;
             }
             req.session.user = { id: author.id };
-            const redirectTo = req.session.redirectTo || "/main-page";
+            const redirectTo = req.session.redirectTo || "/";
             res.redirect(redirectTo);
           }
         );
