@@ -45,6 +45,52 @@ router.get("/home", (req, res) => {
   });
 });
 
+router.get("/settings", (req, res) => {
+  const { id } = req.session.user;
+
+  db.get(
+    `SELECT name, displayName, email, blogTitle, blogSubtitle FROM authors WHERE id = ?;`,
+    [id],
+    (err, author) => {
+      if (err) {
+        res.sendStatus(500);
+        console.log(err);
+        return;
+      }
+      res.render("author-settings.ejs", {
+        author,
+        session: req.session.authenticated,
+        status: 200,
+      });
+    }
+  );
+});
+
+router.post("/updateSettings", (req, res) => {
+  const { name, displayName, email, blogTitle, blogSubtitle } = req.body;
+  const { id } = req.session.user;
+
+  querySettings = `UPDATE authors SET name = ?, displayName = ?, email = ?, blogTitle = ?, blogSubtitle = ? WHERE id = ?;`;
+
+  db.run(
+    querySettings,
+    [name, displayName, email, blogTitle, blogSubtitle, id],
+    (err) => {
+      if (err) {
+        if (err.errno === 19) {
+          // Email already exists
+          res.render("author-settings.ejs", { status: 409 });
+        } else {
+          // Internal Server Error
+          res.render("author-settings.ejs", { status: 500 });
+        }
+      } else {
+        res.redirect("/author/home");
+      }
+    }
+  );
+});
+
 // Fetch articles and its data for editing
 router.get("/:articleId/edit", (req, res) => {
   const { articleId } = req.params;
