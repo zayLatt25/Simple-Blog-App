@@ -12,14 +12,12 @@
 
   </head>
   <body>
-    <div class="col-md-12 mt-3">
-      <a href="/author/home" class="btn btn-link">
+    <div class="mx-4 mt-5">
+      <a href="/author/home" class="btn text-white px-3 ms-4 btn-lg btn-block mt-4 p-0 py-2" style="background-color: #03396C; font-size: 15px; width: 200px;">
         <i class="bi bi-box-arrow-in-left"></i> 
         Back to Author Home
       </a>
-    </div>
-    <div class="container mt-5">
-      <div class="row">
+      <div class="row mt-4 d-flex justify-content-center align-items-center">
         <div class="col-md-6">
           <h3>Author Settings</h3>
           <% if (status === 500) { %>
@@ -36,7 +34,7 @@
               <label for="authorName">Name:</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control mb-4"
                 id="authorName"
                 name="name"
                 value="<%= author.name %>"
@@ -44,10 +42,10 @@
               />
             </div>
             <div class="form-group">
-              <label for="displayName">Display Name:</label>
+              <label for="displayName" class="mb-0">Display Name:</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control mb-4"
                 id="displayName"
                 name="displayName"
                 value="<%= author.displayName %>"
@@ -55,10 +53,10 @@
               />
             </div>
             <div class="form-group">
-              <label for="email">Email:</label>
+              <label for="email" class="mb-0">Email:</label>
               <input
                 type="email"
-                class="form-control"
+                class="form-control mb-4"
                 id="email"
                 name="email"
                 value="<%= author.email %>"
@@ -66,10 +64,10 @@
               />
             </div>
             <div class="form-group">
-              <label for="blogTitle">Blog Title:</label>
+              <label for="blogTitle" class="mb-0">Blog Title:</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control mb-4"
                 id="blogTitle"
                 name="blogTitle"
                 value="<%= author.blogTitle %>"
@@ -77,17 +75,17 @@
               />
             </div>
             <div class="form-group">
-              <label for="blogSubtitle">Blog Subtitle:</label>
+              <label for="blogSubtitle" class="mb-0">Blog Subtitle:</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control mb-4"
                 id="blogSubtitle"
                 name="blogSubtitle"
                 value="<%= author.blogSubtitle %>"
                 required
               />
             </div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="submit" class="btn text-white" style="background-color: #03396C;">Save Changes</button>
           </form>
         </div>
       </div>
