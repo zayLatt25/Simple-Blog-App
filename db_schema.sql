@@ -2,12 +2,6 @@ PRAGMA foreign_keys=ON;
 
 BEGIN TRANSACTION;
 
--- TODO: Consider removing reader accounts
--- CREATE TABLE IF NOT EXISTS readers (
---     id INTEGER PRIMARY KEY AUTOINCREMENT,
---     name TEXT NOT NULL
--- );
-
 CREATE TABLE IF NOT EXISTS authors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -39,14 +33,9 @@ CREATE TABLE IF NOT EXISTS comments (
     readerName TEXT NOT NULL,
     content TEXT NOT NULL,
     articleID INT,
-    -- readerID INT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (articleID) REFERENCES articles(id)
-    -- FOREIGN KEY (readerID) REFERENCES readers(id)
 );
-
--- INSERT INTO readers ('name') VALUES ('Simon Star');
--- INSERT INTO readers ('name') VALUES ('Dianne Dean');
 
 INSERT INTO authors ('name', 'displayName', 'email' ,'password', 'blogTitle', 'blogSubtitle') VALUES ('John Doe', 'Starry Traveler', 'john123@gmail.com', '12345', 'Traveling the world', 'One country at a time');
 INSERT INTO authors ('name', 'displayName', 'email' ,'password', 'blogTitle', 'blogSubtitle') VALUES ('Alex Green', 'Quantum Quill', 'alex.green@gmail.com', 'password123', 'Writing about the universe', 'One article at a time');
