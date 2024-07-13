@@ -3,7 +3,7 @@ const router = express.Router();
 const { cutText } = require("../utils/helper-functions");
 
 router.get("/home", (req, res) => {
-  const authorId = req.session.user.id;
+  const { id } = req.session.user;
 
   // Left join is used so that if the article has no comments,
   // the article info will still be fetched
@@ -23,13 +23,13 @@ router.get("/home", (req, res) => {
         ORDER BY
             ar.createdAt DESC;`;
 
-  db.get(`SELECT * from authors WHERE id = ?;`, [authorId], (err, author) => {
+  db.get(`SELECT * from authors WHERE id = ?;`, [id], (err, author) => {
     if (err) {
       res.sendStatus(500);
       console.log(err);
       return;
     }
-    db.all(queryCommentCount, [authorId], (err, articles) => {
+    db.all(queryCommentCount, [id], (err, articles) => {
       if (err) {
         res.sendStatus(500);
         console.log(err);
@@ -39,6 +39,7 @@ router.get("/home", (req, res) => {
         author,
         articles,
         session: req.session.authenticated,
+        mode: "author",
         cutText,
       });
     });

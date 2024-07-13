@@ -140,17 +140,19 @@
         <h4 class="fw-bold">Visit Other Blogs</h4>
         <div class="col h-auto p-4 rounded"  style="background-color: #D8EFFF;">
           <% blogs.forEach(function(blog) { %> 
-            <div class="">
-              <div class="mb-3 card" id="visit-card">
-                <div class="card-body">
-                  <h5 class="card-title"><%= blog.blogTitle %></h5>
-                  <h6 class="card-text mb-1 text-muted">
-                    <%= blog.blogSubtitle %>
-                  </h6>
-                  <h6 class="card-text mb-2 text-muted">By <%= blog.displayName %></h6>
+            <a href="/reader/<%= blog.id %>/blog" class="text-decoration-none no-link-style">
+              <div class="">
+                <div class="mb-3 card" id="visit-card">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= blog.blogTitle %></h5>
+                    <h6 class="card-text mb-1 text-muted">
+                      <%= blog.blogSubtitle %>
+                    </h6>
+                    <h6 class="card-text mb-2 text-muted">By <%= blog.displayName %></h6>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           <% }); %>
         </div>
       </div>
