@@ -67,7 +67,7 @@
       <% if (mode == 'reader') { %> 
         <p>By <%= author.displayName %></p>
       <% } %>
-      <h2>Articles</h2>
+      <h2>Articles (<%= articles.length %>)</h2>
       <div class="row">
         <% articles.forEach(function(article) { %> 
           <% if (article.createdAt) { %> 
