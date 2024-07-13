@@ -132,4 +132,20 @@ router.post("/add-article/:published", (req, res) => {
   });
 });
 
+router.post("/:articleId/delete", (req, res) => {
+  const { articleId } = req.params;
+  const { id } = req.session.user;
+
+  const queryDelete = `DELETE FROM articles WHERE id = ? AND authorID = ?;`;
+
+  db.run(queryDelete, [articleId, id], (err) => {
+    if (err) {
+      res.sendStatus(500);
+      console.log(err);
+      return;
+    }
+    res.redirect("/author/home");
+  });
+});
+
 module.exports = router;
