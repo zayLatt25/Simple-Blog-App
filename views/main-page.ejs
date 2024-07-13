@@ -11,14 +11,15 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
+    <!-- Nav bar for consistency -->
     <%- include('partials/nav-bar') %>
     <div class="container pt-5">
       <h1 class="text-center mt-5">
         Welcome to <span class="website-name">BlogHub</span>
       </h1>
-
       <div class="row d-flex flex-column align-items-center mt-5">
         <div class="col-md-4 text-center mb-3">
+          <!-- Navigate to reader home page -->
           <a href="/reader/home" class="btn btn-secondary w-100 btn-lg btn-block" style="background-color: #005B97;">
             Continue as Reader &nbsp;
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-book mb-1" viewBox="0 0 16 16">
@@ -26,14 +27,15 @@
             </svg>
           </a>
         </div>
-
         <div class="d-flex align-items-center justify-content-center my-3 opacity-75">
           <hr class="mx-2" style="width: 50px;" />
           <span class="mx-2">or</span>
           <hr class="mx-2" style="width: 50px;" />
         </div>
-
         <div class="col-md-4 text-center mb-3">
+          <!-- Navigate to reader home page -->
+          <!-- If not logged in, prompt users to log in -->
+          <!-- If logged in, just say continue -->
           <a href="/author/home" class="btn btn-primary w-100 btn-lg btn-block" style="background-color: #03396C;">
             <% if (!session) { %>
               Login as Author &nbsp;
@@ -45,7 +47,7 @@
             </svg>
           </a>
         </div>
-    
+        <!-- If not logged in, show the sign up option -->
         <% if (!session) { %>
           <div class="col-md-4 text-center mb-3">
             <a href="/signup" class="btn btn-success btn-lg btn-block w-100" style="background-color: #011F4B;">Sign up as Author!</a>

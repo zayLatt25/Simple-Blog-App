@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+// Render the login/signup page with a status code
 router.get("/", (req, res) => {
   res.render("login-signup.ejs", {
     form: "login",
@@ -8,6 +9,11 @@ router.get("/", (req, res) => {
   });
 });
 
+// Handle the login form submission
+// If the email and password is incorrect, send a 401 status code
+// and render the login/signup page again
+// Else just set the session to authenticated and redirect to where
+// the user was trying to go
 router.post("/", (req, res) => {
   const { email, password } = req.body;
 
@@ -41,6 +47,7 @@ router.post("/", (req, res) => {
               });
               return;
             }
+            // Successfully logged in
             req.session.user = { id: author.id };
             const redirectTo = req.session.redirectTo || "/";
             res.redirect(redirectTo);

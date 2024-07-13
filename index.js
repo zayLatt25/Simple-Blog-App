@@ -20,6 +20,7 @@ global.db = new sqlite3.Database("./database.db", function (err) {
   }
 });
 
+// Session middleware
 app.use(
   session({
     // My randomly generated 32 byte string
