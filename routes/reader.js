@@ -11,7 +11,7 @@ router.get("/home", (req, res, next) => {
             ar.likes, 
             ar.views,
             ar.publishedAt, 
-            au.name AS authorName,
+            au.displayName AS authorName,
             COUNT(c.id) AS comments
         FROM 
             articles ar 
@@ -35,7 +35,7 @@ router.get("/home", (req, res, next) => {
             ar.likes, 
             ar.views,
             ar.publishedAt, 
-            au.name AS authorName,
+            au.displayName AS authorName,
             COUNT(c.id) AS comments
         FROM 
             articles ar 
@@ -51,7 +51,7 @@ router.get("/home", (req, res, next) => {
             ar.likes DESC 
         LIMIT 7`;
 
-  const queryBlogs = `SELECT name, blogTitle, blogSubtitle FROM authors`;
+  const queryBlogs = `SELECT displayName, blogTitle, blogSubtitle FROM authors`;
 
   db.all(queryNewArticles, function (err, newArticles) {
     if (err) {

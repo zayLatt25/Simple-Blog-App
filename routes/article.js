@@ -6,7 +6,7 @@ router.get("/:articleId", (req, res, next) => {
 
   const queryArticle = ` 
         SELECT 
-            ar.*, au.name AS authorName
+            ar.*, au.displayName AS authorName
         FROM 
             articles ar
         JOIN 
