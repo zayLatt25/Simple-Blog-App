@@ -17,33 +17,19 @@
 
       .card {
         --card-border-width: 1px;
-        --card-border-color: #e3e6f0;
-        --card-border-radius: 5px;
-        --card-color: #000;
-        --card-bg: #D8EFFF;
-      
-        border-width: var(--card-border-width);
-        border-color: var(--card-border-color);
-        border-radius: var(--card-border-radius);
-        background-color: var(--card-bg);
-        color: var(--card-color);
-        box-shadow: none;
-      }
-
-      #visit-card {
-        --card-border-width: 1px;
-        --card-border-color: #e3e6f0;
+        --card-border-color: white;
         --card-border-radius: 5px;
         --card-color: #000;
         --card-bg: white;
-      
+        --card-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
         border-width: var(--card-border-width);
         border-color: var(--card-border-color);
         border-radius: var(--card-border-radius);
         background-color: var(--card-bg);
         color: var(--card-color);
-        box-shadow: none;
-      }
+        box-shadow: var(--card-box-shadow);
+    }
 
       .card-text{
         font-size: 15px;
@@ -73,18 +59,18 @@
                       </p>
                       <p class="card-text"><%= cutText(article.content, 25) %></p>
               
-                      <div class="mt-auto">
-                        <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
-                          <i class="bi bi-hand-thumbs-up text-white"></i>
-                          <span class="text-white"><%= article.likes %></span>
+                      <div class="mt-auto" style="font-size: 15px;">
+                        <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97;">
+                          <i class="bi bi-hand-thumbs-up"></i>
+                          <span class=""><%= article.likes %> &nbsp; •</span>
                         </div>
-                        <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
-                          <i class="bi bi-chat-left text-white"></i>
-                          <span class="text-white"><%= article.comments %></span>
+                        <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97;">
+                          <i class="bi bi-chat-left "></i>
+                          <span class=""> <%= article.comments %> &nbsp;  •</span>
                         </div>
-                        <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
-                          <i class="bi bi-eye text-white"></i>
-                          <span class="text-white"><%= article.views %></span>
+                        <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97;">
+                          <i class="bi bi-eye "></i>
+                          <span class=""> <%= article.views %></span>
                         </div>
                       </div>
                     </div>
@@ -114,21 +100,21 @@
                           <h6 class="card-subtitle mb-3 text-muted ">
                             on <%= article.publishedAt %>
                           </h6>
-                          <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
-                            <i class="bi bi-hand-thumbs-up text-white"></i>
-                            <span class="text-white"><%= article.likes %></span>
+                          <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97; font-size: 15px;">
+                            <i class="bi bi-hand-thumbs-up"></i>
+                            <span class=""><%= article.likes %> &nbsp; •</span>
                           </div>
-                          <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
-                            <i class="bi bi-chat-left text-white"></i>
-                            <span class="text-white"><%= article.comments %></span>
+                          <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97; font-size: 15px;">
+                            <i class="bi bi-chat-left "></i>
+                            <span class=""> <%= article.comments %> &nbsp;  •</span>
                           </div>
-                          <div class="p-2 text-center me-2 rounded" style="display: inline-block; width: auto; background-color: #005B97;">
-                            <i class="bi bi-eye text-white"></i>
-                            <span class="text-white"><%= article.views %></span>
+                          <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97; font-size: 15px;">
+                            <i class="bi bi-eye "></i>
+                            <span class=""> <%= article.views %></span>
                           </div>
                         </div>
                         <div class="col-md-8">
-                          <p class="card-text"><%= cutText(article.content, 25) %></p>
+                          <p class="card-text"> <%= cutText(article.content, 25) %></p>
                         </div>
                       </div>
                     </div>
@@ -140,13 +126,13 @@
         </div>
       </div>
 
-      <div class="my-4 col-3 ms-4 mt-0 mb-0" style="background-color: #D8EFFF;">
-        <h4 class="fw-bold mt-4 text-center">Visit Other Blogs</h4>
+      <div class="my-4 col-3 ms-4 mt-0 mb-0" style="background-color: #005B97;">
+        <h4 class="fw-bold mt-4 text-center text-white">Visit Other Blogs</h4>
         <div class="col h-auto p-4 pt-2 rounded">
           <% blogs.forEach(function(blog) { %> 
             <a href="/reader/<%= blog.id %>/blog" class="text-decoration-none no-link-style">
               <div class="">
-                <div class="mb-3 card" id="visit-card">
+                <div class="mb-3 card">
                   <div class="card-body">
                     <h5 class="card-title"><%= blog.blogTitle %></h5>
                     <h6 class="card-text mb-1 text-muted">

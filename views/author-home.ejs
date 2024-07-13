@@ -43,6 +43,34 @@
         margin-top: 60px; 
       }
 
+      a, a:hover {
+        text-decoration: none;
+      }
+
+      .card {
+        --card-border-width: 1px;
+        --card-border-color: white;
+        --card-border-radius: 5px;
+        --card-color: #000;
+        --card-bg: white;
+        --card-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        border-width: var(--card-border-width);
+        border-color: var(--card-border-color);
+        border-radius: var(--card-border-radius);
+        background-color: var(--card-bg);
+        color: var(--card-color);
+        box-shadow: var(--card-box-shadow);
+    }
+
+      .card-text{
+        font-size: 15px;
+      }
+
+      .card-subtitle {
+        font-size: 13px;
+        opacity: 50%;
+      }
     </style>
     <title><%= author.blogTitle %></title>
   </head>
@@ -50,24 +78,29 @@
     <%- include('partials/nav-bar') %>
     <% if (mode == 'reader') { %> 
       <div class="col-md-12 mt-3">
-        <a href="/reader/home" class="btn btn-link">
+        <a href="/reader/home" class="btn text-white w-auto px-3 btn-lg btn-block mt-2 p-0 py-2 ms-4" style="background-color: #005B97; font-size: 15px;">
           <i class="bi bi-box-arrow-in-left"></i> 
           Back to Reader Page
         </a>
       </div>
     <% } %>
     <div class = "container">
-      <h1><%= author.blogTitle %></h1>
+      <h1 class="text-center mt-4  mb-0"><%= author.blogTitle %></h1>
       <% if (mode == 'author') { %> 
-        <a href="/author/settings" class="btn btn-primary rounded-circle fixed-top-right">
+        <a href="/author/settings" class="btn rounded-circle fixed-top-right text-white"  style="background-color: #03396C;">
           <i class="bi bi-gear"></i>
         </a>
       <% } %>
-      <h3><%= author.blogSubtitle %></h3>
+      <h4 class="text-center mb-0" style="color: #005B97;"><%= author.blogSubtitle %></h4>
       <% if (mode == 'reader') { %> 
-        <p>By <%= author.displayName %></p>
+        <p class="text-center card-subtitle">By <%= author.displayName %></p>
       <% } %>
-      <h2>Articles (<%= articles.length %>)</h2>
+
+      <div class="w-100 d-flex justify-content-center align-items-center mt-4">
+        <hr class="w-50" style="background-color: #03396C;" />
+      </div>
+     
+      <h5 class="text-center mb-4" style="color: #03396C;">Articles (<%= articles.length %>)</h5>
       <div class="row">
         <% articles.forEach(function(article) { %> 
           <% if (article.createdAt) { %> 
@@ -152,7 +185,7 @@
       </div>
     </div>
     <% if (mode == 'author') { %> 
-      <a href="/author/add" class="btn btn-primary btn-lg rounded-circle fixed-bottom-right">
+      <a href="/author/add" class="btn btn-lg rounded-circle fixed-bottom-right text-white" style="background-color: #03396C;">
         <i class="bi bi-plus"></i>
       </a>
     <% } %>
