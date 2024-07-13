@@ -3,7 +3,7 @@ const router = express.Router();
 const { cutText } = require("../utils/helper-functions");
 
 router.get("/home", (req, res) => {
-  const authorId = req.session.user.id;
+  const { id } = req.session.user;
 
   // Left join is used so that if the article has no comments,
   // the article info will still be fetched
@@ -23,13 +23,13 @@ router.get("/home", (req, res) => {
         ORDER BY
             ar.createdAt DESC;`;
 
-  db.get(`SELECT * from authors WHERE id = ?;`, [authorId], (err, author) => {
+  db.get(`SELECT * from authors WHERE id = ?;`, [id], (err, author) => {
     if (err) {
       res.sendStatus(500);
       console.log(err);
       return;
     }
-    db.all(queryCommentCount, [authorId], (err, articles) => {
+    db.all(queryCommentCount, [id], (err, articles) => {
       if (err) {
         res.sendStatus(500);
         console.log(err);
@@ -39,10 +39,57 @@ router.get("/home", (req, res) => {
         author,
         articles,
         session: req.session.authenticated,
+        mode: "author",
         cutText,
       });
     });
   });
+});
+
+router.get("/settings", (req, res) => {
+  const { id } = req.session.user;
+
+  db.get(
+    `SELECT name, displayName, email, blogTitle, blogSubtitle FROM authors WHERE id = ?;`,
+    [id],
+    (err, author) => {
+      if (err) {
+        res.sendStatus(500);
+        console.log(err);
+        return;
+      }
+      res.render("author-settings.ejs", {
+        author,
+        session: req.session.authenticated,
+        status: 200,
+      });
+    }
+  );
+});
+
+router.post("/updateSettings", (req, res) => {
+  const { name, displayName, email, blogTitle, blogSubtitle } = req.body;
+  const { id } = req.session.user;
+
+  querySettings = `UPDATE authors SET name = ?, displayName = ?, email = ?, blogTitle = ?, blogSubtitle = ? WHERE id = ?;`;
+
+  db.run(
+    querySettings,
+    [name, displayName, email, blogTitle, blogSubtitle, id],
+    (err) => {
+      if (err) {
+        if (err.errno === 19) {
+          // Email already exists
+          res.render("author-settings.ejs", { status: 409 });
+        } else {
+          // Internal Server Error
+          res.render("author-settings.ejs", { status: 500 });
+        }
+      } else {
+        res.redirect("/author/home");
+      }
+    }
+  );
 });
 
 // Fetch articles and its data for editing
@@ -80,8 +127,8 @@ router.post("/:articleId/edit-article/:published", (req, res) => {
   // Authentication check to ensure that the user is the author of the article
   const authorID = req.session.user.id;
 
-  const queryEdit = `UPDATE articles SET title = ?, content = ? WHERE id = ? AND authorID = ?;`;
-  const queryPublish = `UPDATE articles SET published = ? WHERE id = ? AND authorID = ?;`;
+  const queryEdit = `UPDATE articles SET title = ?, content = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ? AND authorID = ?;`;
+  const queryPublish = `UPDATE articles SET title = ?, content = ?, published = ?, publishedAt = CURRENT_TIMESTAMP, updatedAt = CURRENT_TIMESTAMP WHERE id = ? AND authorID = ?;`;
 
   if (published === "FALSE") {
     db.run(queryEdit, [title, content, articleId, authorID], (err) => {
@@ -93,14 +140,18 @@ router.post("/:articleId/edit-article/:published", (req, res) => {
       res.redirect("/author/home");
     });
   } else {
-    db.run(queryPublish, ["TRUE", articleId, authorID], (err) => {
-      if (err) {
-        res.sendStatus(500);
-        console.log(err);
-        return;
+    db.run(
+      queryPublish,
+      [title, content, "TRUE", articleId, authorID],
+      (err) => {
+        if (err) {
+          res.sendStatus(500);
+          console.log(err);
+          return;
+        }
+        res.redirect("/author/home");
       }
-      res.redirect("/author/home");
-    });
+    );
   }
 });
 
@@ -119,6 +170,22 @@ router.post("/add-article/:published", (req, res) => {
   const queryAdd = `INSERT INTO articles (title, content, published, authorID) VALUES (?, ?, ?, ?);`;
 
   db.run(queryAdd, [title, content, published, authorID], (err) => {
+    if (err) {
+      res.sendStatus(500);
+      console.log(err);
+      return;
+    }
+    res.redirect("/author/home");
+  });
+});
+
+router.post("/:articleId/delete", (req, res) => {
+  const { articleId } = req.params;
+  const { id } = req.session.user;
+
+  const queryDelete = `DELETE FROM articles WHERE id = ? AND authorID = ?;`;
+
+  db.run(queryDelete, [articleId, id], (err) => {
     if (err) {
       res.sendStatus(500);
       console.log(err);

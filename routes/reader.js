@@ -9,37 +9,49 @@ router.get("/home", (req, res, next) => {
             ar.title, 
             ar.content,
             ar.likes, 
-            ar.createdAt, 
-            ar.updatedAt, 
-            au.name AS authorName 
+            ar.views,
+            ar.publishedAt, 
+            au.displayName AS authorName,
+            COUNT(c.id) AS comments
         FROM 
             articles ar 
         JOIN 
             authors au ON ar.authorID = au.id 
+        LEFT JOIN 
+            comments c ON ar.id = c.articleID
         WHERE 
             ar.published = 'TRUE'
+        GROUP BY 
+            ar.id, ar.title, ar.content, ar.likes, ar.views, ar.publishedAt, au.name
         ORDER BY 
-            ar.createdAt DESC LIMIT 3`;
+            ar.createdAt DESC 
+        LIMIT 3`;
 
   const queryFeaturedArticles = `
         SELECT 
             ar.id, 
             ar.title, 
-            ar.content, 
+            ar.content,
             ar.likes, 
-            ar.createdAt, 
-            ar.updatedAt, 
-            au.name AS authorName  
+            ar.views,
+            ar.publishedAt, 
+            au.displayName AS authorName,
+            COUNT(c.id) AS comments
         FROM 
-            articles ar
+            articles ar 
         JOIN 
-            authors au ON ar.authorID = au.id
+            authors au ON ar.authorID = au.id 
+        LEFT JOIN 
+            comments c ON ar.id = c.articleID
         WHERE 
             ar.published = 'TRUE'
+        GROUP BY 
+            ar.id, ar.title, ar.content, ar.likes, ar.views, ar.publishedAt, au.name
         ORDER BY
-            ar.likes DESC LIMIT 7`;
+            ar.likes DESC 
+        LIMIT 7`;
 
-  const queryBlogs = `SELECT name, blogTitle, blogSubtitle FROM authors`;
+  const queryBlogs = `SELECT id, displayName, blogTitle, blogSubtitle FROM authors`;
 
   db.all(queryNewArticles, function (err, newArticles) {
     if (err) {
@@ -65,6 +77,50 @@ router.get("/home", (req, res, next) => {
         }
       });
     }
+  });
+});
+
+router.get("/:authorID/blog", (req, res) => {
+  const { authorID } = req.params;
+
+  // Left join is used so that if the article has no comments,
+  // the article info will still be fetched
+  const queryCommentCount = `
+        SELECT 
+            ar.id AS articleID,
+            ar.*,
+            COUNT(c.id) AS comments
+        FROM 
+            articles ar
+        LEFT JOIN 
+            comments c ON ar.id = c.articleID
+        WHERE 
+            ar.authorID = ? AND ar.published = 'TRUE'
+        GROUP BY 
+            ar.id, ar.title, ar.content, ar.views, ar.likes, ar.published, ar.authorID, ar.createdAt, ar.updatedAt
+        ORDER BY
+            ar.createdAt DESC;`;
+
+  db.get(`SELECT * from authors WHERE id = ?;`, [authorID], (err, author) => {
+    if (err) {
+      res.sendStatus(500);
+      console.log(err);
+      return;
+    }
+    db.all(queryCommentCount, [authorID], (err, articles) => {
+      if (err) {
+        res.sendStatus(500);
+        console.log(err);
+        return;
+      }
+      res.render("author-home.ejs", {
+        author,
+        articles,
+        session: req.session.authenticated,
+        mode: "reader",
+        cutText,
+      });
+    });
   });
 });
 
