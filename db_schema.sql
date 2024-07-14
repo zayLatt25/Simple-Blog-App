@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS comments (
     content TEXT NOT NULL,
     articleID INT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (articleID) REFERENCES articles(id)
+    FOREIGN KEY (articleID) REFERENCES articles(id) ON DELETE CASCADE
 );
 
 INSERT INTO authors ('name', 'displayName', 'email' ,'password', 'blogTitle', 'blogSubtitle') VALUES ('John Doe', 'Starry Traveler', 'john123@gmail.com', '12345', 'Traveling the world', 'One country at a time');
