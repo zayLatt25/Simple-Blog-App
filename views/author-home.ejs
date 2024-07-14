@@ -1,161 +1,199 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"> 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
 
-    <!-- TODO: Move to separate CSS class -->
-    <style>
-      .no-link-style {
-        text-decoration: none;
-        color: inherit;
-      }
+  <style>
+    .no-link-style {
+      text-decoration: none;
+      color: inherit;
+    }
 
-      .fixed-bottom-right {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 80px; 
-        height: 80px; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 32px; 
-      }
+    .fixed-bottom-right {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 80px; 
+      height: 80px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px; 
+    }
 
-      .fixed-top-right {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 60px; 
-        height: 60px; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px; 
-        margin-top: 60px; 
-      }
+    .fixed-top-right {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 60px; 
+      height: 60px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px; 
+      margin-top: 60px; 
+    }
 
-    </style>
-    <title><%= author.blogTitle %></title>
-  </head>
-  <body>
-    <%- include('partials/nav-bar') %>
-    <% if (mode == 'reader') { %> 
-      <div class="col-md-12 mt-3">
-        <a href="/reader/home" class="btn btn-link">
-          <i class="bi bi-box-arrow-in-left"></i> 
-          Back to Reader Page
-        </a>
-      </div>
+    a, a:hover {
+      text-decoration: none;
+    }
+
+    .card {
+      --card-border-width: 1px;
+      --card-border-color: white;
+      --card-border-radius: 5px;
+      --card-color: #000;
+      --card-bg: white;
+      --card-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+      border-width: var(--card-border-width);
+      border-color: var(--card-border-color);
+      border-radius: var(--card-border-radius);
+      background-color: var(--card-bg);
+      color: var(--card-color);
+      box-shadow: var(--card-box-shadow);
+    }
+
+    .card-text {
+      font-size: 15px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      opacity: 50%;
+    }
+  </style>
+  <title><%= author.blogTitle %></title>
+</head>
+<body>
+  <%- include('partials/nav-bar') %>
+  <% if (mode == 'reader') { %> 
+    <div class="col-md-12 mt-3">
+      <a href="/reader/home" class="btn text-white w-auto px-3 btn-lg btn-block mt-2 p-0 py-2 ms-4" style="background-color: #005B97; font-size: 15px;">
+        <i class="bi bi-box-arrow-in-left"></i> 
+        Back to Reader Page
+      </a>
+    </div>
+  <% } %>
+  <div class="container">
+    <h1 class="text-center mt-4 mb-0"><%= author.blogTitle %></h1>
+    <% if (mode == 'author') { %> 
+      <a href="/author/settings" class="btn rounded-circle fixed-top-right text-white" style="background-color: #03396C;">
+        <i class="bi bi-gear"></i>
+      </a>
     <% } %>
-    <div class = "container">
-      <h1><%= author.blogTitle %></h1>
-      <% if (mode == 'author') { %> 
-        <a href="/author/settings" class="btn btn-primary rounded-circle fixed-top-right">
-          <i class="bi bi-gear"></i>
-        </a>
-      <% } %>
-      <h3><%= author.blogSubtitle %></h3>
-      <% if (mode == 'reader') { %> 
-        <p>By <%= author.displayName %></p>
-      <% } %>
-      <h2>Articles (<%= articles.length %>)</h2>
-      <div class="row">
-        <% articles.forEach(function(article) { %> 
-          <% if (article.createdAt) { %> 
-            <div class="col-md-4">
-              <% if (mode == 'reader') { %> 
-                <a href = "/article/<%= article.id %>" class="text-decoration-none no-link-style">
-              <% } %>
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title d-flex justify-content-between align-items-center">
-                    <span><%= article.title %></span>
-                    <% if (article.published == 'TRUE' && mode == 'author') { %>
-                      <span class="badge bg-success">Published</span>
-                    <% } else if (article.published == 'FALSE' && mode == 'author'){ %>
-                      <span class="badge bg-secondary">Draft</span>
-                    <% } %>
-                  </h5>
-                  <% if (article.published == 'TRUE') { %>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                      Published: <%= article.publishedAt %>
-                    </h6>
-                  <% } else {%>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                      Created: <%= article.createdAt %>
-                    </h6>
-                    <% if (article.createdAt != article.updatedAt) { %>
-                      <h6 class="card-subtitle mb-2 text-muted">
-                        Last Modified: <%= article.updatedAt %>
-                      </h6>
-                    <% } %>
-                  <% } %>
-                  <p class="card-text"><%= cutText(article.content, 25) %></p>
-                  <div class="d-flex mt-3 justify-content-between">
-                    <div class="d-flex">
-                      <div class="icon-container bg-light p-2 text-center me-2">
-                        <i class="bi bi-hand-thumbs-up icon"></i>
-                        <span><%= article.likes %></span>
-                      </div>
-                      <div class="icon-container bg-light p-2 text-center me-2">
-                        <i class="bi bi-chat-left icon"></i>
-                        <span><%= article.comments %></span>
-                      </div>
-                      <div class="icon-container bg-light p-2 text-center">
-                        <i class="bi bi-eye icon"></i>
-                        <span><%= article.views %></span>
-                      </div>
-                    </div>
-                    <div class="d-flex">
-                      <% if (mode == 'author') { %> 
-                        <% if (article.published == 'FALSE') { %>
-                          <div class="bg-light p-2 text-center me-2">
-                            <a href="/author/<%= article.id %>/edit" class="text-decoration-none no-link-style">
-                              <i class="bi bi-pencil"></i>
-                              <span>Edit</span>
-                            </a>
-                          </div>
-                          <% } else if (article.published == 'TRUE') { %>
-                            <div class="bg-light p-2 text-center me-2">
-                              <a href="/article/<%= article.id %>" class="text-decoration-none no-link-style">
-                                <span>View in Reader</span>
-                              </a>
-                            </div>
-                          <% } %>
-                        <div class="bg-light p-2 text-center delete-button">
-                          <form action="/author/<%= article.id %>/delete" method="POST" style="display:inline;">
-                            <button type="submit" class="btn" style="border: none; background: none; padding: 0;">
-                              <i class="bi bi-trash text-danger"></i>
-                            </button>
-                          </form>
-                        </div>  
+    <h4 class="text-center mb-0" style="color: #005B97;"><%= author.blogSubtitle %></h4>
+    <% if (mode == 'reader') { %> 
+      <p class="text-center card-subtitle">By <%= author.displayName %></p>
+    <% } %>
+
+    <div class="w-100 d-flex justify-content-center align-items-center mt-4">
+      <hr class="w-50" style="background-color: #03396C;" />
+    </div>
+
+    <h5 class="text-center mb-4" style="color: #03396C;">Articles (<%= articles.length %>)</h5>
+    <div class="row">
+      <% articles.forEach(function(article) { %> 
+        <% if (article.createdAt) { %> 
+          <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <% if (mode == 'reader') { %> 
+              <a href="/article/<%= article.id %>" class="text-decoration-none no-link-style">
+            <% } %>
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="fw-bold mb-0 mt-2"><%= article.title %></h5>
+
+                  <div class="d-flex">
+                    <p class="card-title d-flex justify-content-between align-items-center mb-0">
+                      <% if (article.published == 'TRUE' && mode == 'author') { %>
+                        <span class="badge bg-success">Published</span>
+                      <% } else if (article.published == 'FALSE' && mode == 'author') { %>
+                        <span class="badge bg-secondary">Draft</span>
                       <% } %>
+                    </h5>
+  
+                    <% if (mode == 'author') {%>
+                      <div class="p-2 text-center delete-button">
+                        <form action="/author/<%= article.id %>/delete" method="POST" style="display:inline;">
+                          <button type="submit" class="btn" style="border: none; background-color: transparent; padding: 0;">
+                            <i class="bi bi-trash text-danger"></i>
+                          </button>
+                        </form>
+                      </div>  
+                    <%}%>
+                  </div>
+                </div>
+                
+                <% if (article.published == 'TRUE') { %>
+                  <h6 class="card-subtitle mb-2 text-muted">
+                    Published: <%= article.publishedAt %>
+                  </h6>
+                <% } else { %>
+                  <h6 class="card-subtitle mb-2 text-muted">
+                    Created: <%= article.createdAt %>
+                  </h6>
+                  <% if (article.createdAt != article.updatedAt) { %>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                      Last Modified: <%= article.updatedAt %>
+                    </h6>
+                  <% } %>
+                <% } %>
+                <p class="card-text"><%= cutText(article.content, 25) %></p>
+
+                <div class="mt-3 d-flex justify-content-between" style="font-size: 13px;">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97;">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                      <span class=""><%= article.likes %> &nbsp; •</span>
                     </div>
+                    <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97;">
+                      <i class="bi bi-chat-left"></i>
+                      <span class=""> <%= article.comments %> &nbsp; •</span>
+                    </div>
+                    <div class="text-center me-2 rounded" style="display: inline-block; width: auto; color: #005B97;">
+                      <i class="bi bi-eye"></i>
+                      <span class=""> <%= article.views %></span>
+                    </div>
+                  </div>
+                  
+                  <div class="d-flex">
+                    <% if (mode == 'author') { %> 
+                      <% if (article.published == 'FALSE') { %>
+                        <div class="p-2 text-center text-white rounded" style="background-color: #03396C;">
+                          <a href="/author/<%= article.id %>/edit" class="text-decoration-none no-link-style">
+                            <i class="bi bi-pencil"></i>
+                            <span>Edit</span>
+                          </a>
+                        </div>
+                      <% } else if (article.published == 'TRUE') { %>
+                        <div class="p-2 text-center text-white rounded" style="background-color: #03396C;">
+                          <a href="/article/<%= article.id %>" class="text-decoration-none no-link-style">
+                            <span>View in Reader</span>
+                          </a>
+                        </div>
+                      <% } %>
+                    <% } %>
                   </div>
                 </div>
               </div>
-              <% if (mode == 'reader') { %> 
-              </a>
-              <% } %>
             </div>
-          <% }; %>
-        <% }); %>
-      </div>
+            <% if (mode == 'reader') { %> 
+              </a>
+            <% } %>
+          </div>
+        <% }; %>
+      <% }); %>
     </div>
-    <% if (mode == 'author') { %> 
-      <a href="/author/add" class="btn btn-primary btn-lg rounded-circle fixed-bottom-right">
-        <i class="bi bi-plus"></i>
-      </a>
-    <% } %>
+  </div>
+  <% if (mode == 'author') { %> 
+    <a href="/author/add" class="btn btn-lg rounded-circle fixed-bottom-right text-white" style="background-color: #03396C;">
+      <i class="bi bi-plus"></i>
+    </a>
+  <% } %>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>

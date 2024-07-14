@@ -1,0 +1,28 @@
+a, a:hover {
+    text-decoration: none;
+  }
+
+  .card {
+    --card-border-width: 1px;
+    --card-border-color: white;
+    --card-border-radius: 5px;
+    --card-color: #000;
+    --card-bg: white;
+    --card-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    border-width: var(--card-border-width);
+    border-color: var(--card-border-color);
+    border-radius: var(--card-border-radius);
+    background-color: var(--card-bg);
+    color: var(--card-color);
+    box-shadow: var(--card-box-shadow);
+}
+
+  .card-text{
+    font-size: 15px;
+  }
+
+  .card-subtitle {
+    font-size: 13px;
+    opacity: 50%;
+  }
