@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 // Render the login/signup page with a status code
+// as well as form to determine which elements to render
+// Reused the same page as sign up
 router.get("/", (req, res) => {
   res.render("login-signup.ejs", {
     form: "login",

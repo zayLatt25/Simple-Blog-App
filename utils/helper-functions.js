@@ -1,3 +1,9 @@
+/**
+ * Cut the article content length to certain amount of words
+ * @param {String} text
+ * @param {Int} wordLimit
+ * @returns {String}
+ */
 function cutText(text, wordLimit) {
   if (!text) {
     return "";

@@ -2,11 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { cutText } = require("../utils/helper-functions");
 
+// Render the author home page
 router.get("/home", (req, res) => {
   const { id } = req.session.user;
 
+  // Fetches both article data and the count of comments for each article
   // Left join is used so that if the article has no comments,
-  // the article info will still be fetched
+  // the article info will still be fetched.
   const queryCommentCount = `
         SELECT 
             ar.id AS articleID,
@@ -46,6 +48,7 @@ router.get("/home", (req, res) => {
   });
 });
 
+// Render the author settings page
 router.get("/settings", (req, res) => {
   const { id } = req.session.user;
 
@@ -67,6 +70,7 @@ router.get("/settings", (req, res) => {
   );
 });
 
+// Endpoint to update author settings
 router.post("/updateSettings", (req, res) => {
   const { name, displayName, email, blogTitle, blogSubtitle } = req.body;
   const { id } = req.session.user;
@@ -93,7 +97,7 @@ router.post("/updateSettings", (req, res) => {
 });
 
 // Fetch articles and its data for editing
-router.get("/:articleId/edit", (req, res) => {
+router.get("/edit-article/:articleId", (req, res) => {
   const { articleId } = req.params;
   const { id } = req.session.user;
 
@@ -121,7 +125,7 @@ router.get("/:articleId/edit", (req, res) => {
 });
 
 // Update the database with new edited article data
-router.post("/:articleId/edit-article/:published", (req, res) => {
+router.post("/edit-article/:articleId/:published", (req, res) => {
   const { title, content } = req.body;
   const { articleId, published } = req.params;
   // Authentication check to ensure that the user is the author of the article
@@ -155,18 +159,21 @@ router.post("/:articleId/edit-article/:published", (req, res) => {
   }
 });
 
-router.get("/add", (req, res) => {
+// Render the page to add a new article
+router.get("/add-article", (req, res) => {
   res.render("manage-article.ejs", {
     article: null,
     session: req.session.authenticated,
   });
 });
 
+// Endpoint to add an article to the database
 router.post("/add-article/:published", (req, res) => {
   const { title, content } = req.body;
   const { published } = req.params;
   const authorID = req.session.user.id;
 
+  // Added authorID in query fetched from session for authentication purposes
   const queryAdd = `INSERT INTO articles (title, content, published, authorID) VALUES (?, ?, ?, ?);`;
 
   db.run(queryAdd, [title, content, published, authorID], (err) => {
@@ -179,10 +186,12 @@ router.post("/add-article/:published", (req, res) => {
   });
 });
 
-router.post("/:articleId/delete", (req, res) => {
+// Endpoint to delete an article
+router.post("/delete-article/:articleId", (req, res) => {
   const { articleId } = req.params;
   const { id } = req.session.user;
 
+  // Added authentication check by authorID and articleID
   const queryDelete = `DELETE FROM articles WHERE id = ? AND authorID = ?;`;
 
   db.run(queryDelete, [articleId, id], (err) => {

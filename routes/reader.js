@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { cutText } = require("../utils/helper-functions");
 
+// Render the reader home page
 router.get("/home", (req, res, next) => {
+  // Get the latest 2 articles from the database
   const queryNewArticles = `
         SELECT 
             ar.id, 
@@ -25,8 +27,10 @@ router.get("/home", (req, res, next) => {
             ar.id, ar.title, ar.content, ar.likes, ar.views, ar.publishedAt, au.name
         ORDER BY 
             ar.createdAt DESC 
-        LIMIT 3`;
+        LIMIT 2`;
 
+  // Get the 7 most popular articles from the database
+  // Popularity is determined by the number of likes and comments
   const queryFeaturedArticles = `
         SELECT 
             ar.id, 
@@ -36,7 +40,8 @@ router.get("/home", (req, res, next) => {
             ar.views,
             ar.publishedAt, 
             au.displayName AS authorName,
-            COUNT(c.id) AS comments
+            COUNT(c.id) AS comments,
+            (ar.likes * COUNT(c.id)) AS popularity
         FROM 
             articles ar 
         JOIN 
@@ -48,9 +53,10 @@ router.get("/home", (req, res, next) => {
         GROUP BY 
             ar.id, ar.title, ar.content, ar.likes, ar.views, ar.publishedAt, au.name
         ORDER BY
-            ar.likes DESC 
+            popularity DESC 
         LIMIT 7`;
 
+  // Get the blogs out the authors
   const queryBlogs = `SELECT id, displayName, blogTitle, blogSubtitle FROM authors`;
 
   db.all(queryNewArticles, function (err, newArticles) {
@@ -65,6 +71,7 @@ router.get("/home", (req, res, next) => {
             if (err) {
               next(err);
             } else {
+              // Pass in all the information to the reader home page
               res.render("reader-home.ejs", {
                 newArticles,
                 featuredArticles,
@@ -80,6 +87,7 @@ router.get("/home", (req, res, next) => {
   });
 });
 
+// Render the blog page of the author
 router.get("/:authorID/blog", (req, res) => {
   const { authorID } = req.params;
 
@@ -113,6 +121,8 @@ router.get("/:authorID/blog", (req, res) => {
         console.log(err);
         return;
       }
+      // Reused author home page for code reusability
+      // Pass in mode to determine which elements to show
       res.render("author-home.ejs", {
         author,
         articles,

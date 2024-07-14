@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"> 
-     <style>
+    <style>
       a, a:hover {
         text-decoration: none;
       }
@@ -28,9 +28,9 @@
         background-color: var(--card-bg);
         color: var(--card-color);
         box-shadow: var(--card-box-shadow);
-    }
+      }
 
-      .card-text{
+      .card-text {
         font-size: 15px;
       }
 
@@ -48,7 +48,6 @@
   </head>
   <body>
     <%- include('partials/nav-bar') %>
-
     <div class="mx-4 p-0 d-flex" style="min-height: 100vh;">
       <div class="col-9">
         <a href="/reader/home" class="btn text-white w-25 btn-lg btn-block mt-4 p-0 py-2" style="background-color: #005B97; font-size: 15px;">
@@ -57,63 +56,58 @@
         </a>
   
         <div class="">
-          <div class="col-12">
-            <div class="text-center w-100">
-              <div class="d-flex text-center justify-content-center align-items-center">
-                <h1 class="mb-0"><%= article.title %></h1>
-                &nbsp; &nbsp; 
-                <% if (session && session.id != article.authorID || !session) {%>
-                  <a href="/article/<%= article.id %>/like" class="d-inline">
-                    <button id="like-button-<%= article.id %>" type="submit" class="text-white like-button 
-                      d-inline-block p-2" style="border: 1px solid #ccc; border-radius: 4px; 
-                      cursor: pointer; background-color: #005B97">
-                      <i class="bi bi-hand-thumbs-up"></i>
-                      <span><%= article.likes %></span>
-                    </button>
-                  </a>
-                <% } else { %>
-                  <div class="bg-light p-2 text-center me-2" style="display: inline-block; width: auto;">
+          <div class="text-center w-100">
+            <div class="d-flex text-center justify-content-center align-items-center">
+              <h1 class="mb-0"><%= article.title %></h1>
+              &nbsp; &nbsp; 
+              <!-- If the user did not write the article, allow them to like -->
+              <% if (session && session.id != article.authorID || !session) { %>
+                <a href="/article/<%= article.id %>/like" class="d-inline">
+                  <button id="like-button-<%= article.id %>" type="submit" class="text-white like-button d-inline-block p-2" style="border: 1px solid #ccc; border-radius: 4px; cursor: pointer; background-color: #005B97;">
                     <i class="bi bi-hand-thumbs-up"></i>
                     <span><%= article.likes %></span>
-                  </div>
-                <% } %>
-              </div>
-              
-              <p class="text-center card-subtitle mb-3">
-                By <%= article.authorName %> on <%= article.publishedAt %>
-              </p>
-
-              <div class="w-100 d-flex justify-content-center align-items-center">
-                <hr class="w-50" />
-              </div>
-               
-              </div>
-              <div class="article-box border-0">
-                <p><%= article.content %></p>
-              </div>
-
-              <div class="w-100 d-flex justify-content-center align-items-center mb-4">
-                <hr class="w-50" />
-              </div>
-
-              <% if (session && session.id != article.authorID || !session) {%>
-                <div class="add-comment">
-                  <h5 class="fw-bold">Add a Comment</h5>
-                  <form action="/article/<%= article.id %>/comments" method="POST">
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" name="readerName" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="text">Comment</label>
-                      <textarea class="form-control" id="text" name="content" rows="3" required></textarea>
-                    </div>
-                    <button type="submit" class="btn text-white my-4" style="background-color: #005B97;">Submit</button>
-                  </form>
+                  </button>
+                </a>
+              <% } else { %>
+                <!-- If the user wrote the article, just show the number of likes -->
+                <div class="bg-light p-2 text-center me-2" style="display: inline-block; width: auto;">
+                  <i class="bi bi-hand-thumbs-up"></i>
+                  <span><%= article.likes %></span>
                 </div>
               <% } %>
             </div>
             
+            <p class="text-center card-subtitle mb-3">
+              By <%= article.authorName %> on <%= article.publishedAt %>
+            </p>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+              <hr class="w-50" />
+            </div>
+          </div>
+          <div class="article-box border-0">
+            <p><%= article.content %></p>
+          </div>
+          <div class="w-100 d-flex justify-content-center align-items-center mb-4">
+            <hr class="w-50" />
+          </div>
+
+          <!-- If the user is the author of the article, do not let them comment -->
+          <% if (session && session.id != article.authorID || !session) { %>
+            <div class="add-comment">
+              <h5 class="fw-bold">Add a Comment</h5>
+              <form action="/article/<%= article.id %>/comments" method="POST">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" name="readerName" required>
+                </div>
+                <div class="form-group">
+                  <label for="text">Comment</label>
+                  <textarea class="form-control" id="text" name="content" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn text-white my-4" style="background-color: #005B97;">Submit</button>
+              </form>
+            </div>
+          <% } %>
         </div>
       </div>
 
@@ -135,9 +129,7 @@
           </div>
         </div>
       </div>
-      </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   </body>

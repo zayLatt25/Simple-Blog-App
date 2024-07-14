@@ -9,7 +9,7 @@
     "clean-db": "rm database.db #remove the old database",
     "build-db-win": "sqlite3 database.db < db_schema.sql",
     "clean-db-win": "del database.db",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "Simon Katan",
   "license": "ISC",
@@ -18,7 +18,6 @@
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-session": "^1.18.0",
-    "nodemon": "^3.1.4",
     "sqlite3": "^5.1.2"
   },
   "engines": {

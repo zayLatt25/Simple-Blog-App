@@ -48,8 +48,6 @@ app.use("/article", articleRoutes);
 //Routes that require login are protected by middleware
 const authorRoutes = require("./routes/author");
 app.use("/author", checkLogin, authorRoutes);
-const usersRoutes = require("./routes/users");
-app.use("/users", checkLogin, usersRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
